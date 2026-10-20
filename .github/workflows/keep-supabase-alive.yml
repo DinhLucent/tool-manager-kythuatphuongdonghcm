@@ -1,0 +1,19 @@
+name: Keep Supabase Alive (Free Tier Heartbeat)
+
+# Supabase Free Tier tự động pause database nếu sau 7 ngày không có truy vấn SQL.
+# Workflow này chạy định kỳ mỗi 3 ngày lúc 06:00 UTC để gọi một lệnh truy vấn nhẹ qua API,
+# đảm bảo database luôn ở trạng thái ACTIVE $0/tháng mà không cần can thiệp thủ công.
+
+on:
+  schedule:
+    - cron: '0 6 */3 * *' # Chạy mỗi 3 ngày
+  workflow_dispatch:      # Cho phép trigger bằng tay khi cần kiểm tra
+
+jobs:
+  ping-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Supabase Health Endpoint
+        run: |
+          echo "Pinging Engineering Hub Health Check API..."
+          curl -f -s -m 15 "${{ secrets.PUBLIC_APP_URL }}/api/health" || echo "Heartbeat ping sent."

@@ -1,0 +1,244 @@
+'use client';
+
+import React, { useState } from 'react';
+import { 
+  MessageSquareCode, 
+  Send, 
+  Sparkles, 
+  AlertCircle, 
+  ShieldAlert, 
+  Cpu, 
+  Bot, 
+  User, 
+  Terminal,
+  HelpCircle,
+  Clock
+} from 'lucide-react';
+import { ChatMessage } from '../types';
+import { DIAGNOSTIC_TEMPLATES, MOCK_KNOWLEDGE_REPLIES } from '../data';
+import { Badge } from '@/components/Badge';
+import { Card, CardContent } from '@/components/Card';
+import { formatDateTime } from '@/lib/utils';
+
+export function ChatPlaceholder() {
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: 'msg-0',
+      role: 'system',
+      content: 'Chào kỹ sư! Đây là giao diện Prototype của Trợ lý Kỹ thuật (Technical Assistant Beta). Bạn có thể chọn các câu hỏi mẫu bên dưới hoặc nhập câu hỏi kỹ thuật về giao thức ASTM, mã lỗi máy xét nghiệm và sơ đồ cổng COM.',
+      timestamp: new Date().toISOString(),
+      isPrototypeResponse: true,
+    },
+  ]);
+
+  const handleSend = (textToSend?: string) => {
+    const query = (textToSend || input).trim();
+    if (!query) return;
+
+    const userMessage: ChatMessage = {
+      id: `msg-${Date.now()}`,
+      role: 'user',
+      content: query,
+      timestamp: new Date().toISOString(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    if (!textToSend) setInput('');
+
+    // Check if query matches any known template
+    setTimeout(() => {
+      let replyContent = '';
+      const matchedTemplate = DIAGNOSTIC_TEMPLATES.find((t) => t.prompt === query);
+
+      if (matchedTemplate && MOCK_KNOWLEDGE_REPLIES[matchedTemplate.id]) {
+        replyContent = MOCK_KNOWLEDGE_REPLIES[matchedTemplate.id];
+      } else {
+        replyContent = `ℹ️ [BETA PROTOTYPE RESPONSE]:
+Hệ thống AI Backend chuyên dụng (fine-tuned LLM cho cẩm nang thiết bị y tế Roche, Sysmex, Mindray) hiện đang được đóng gói trong mạng nội bộ.
+Trong phiên bản MVP này, AI backend chưa được kích hoạt trực tiếp nhằm bảo vệ tài nguyên máy chủ.
+
+Câu hỏi của bạn: "${query}"
+Vui lòng tham khảo tài liệu kỹ thuật tại tab Knowledge Base (/knowledge) hoặc tra cứu sơ đồ chân cáp chuẩn.`;
+      }
+
+      const assistantMessage: ChatMessage = {
+        id: `msg-${Date.now() + 1}`,
+        role: 'assistant',
+        content: replyContent,
+        timestamp: new Date().toISOString(),
+        isPrototypeResponse: true,
+      };
+
+      setMessages((prev) => [...prev, assistantMessage]);
+    }, 600);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-5">
+        <div>
+          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
+            <MessageSquareCode className="w-6 h-6 text-amber-600" />
+            Technical Assistant
+            <Badge tone="warning">Beta Prototype</Badge>
+          </h1>
+          <p className="text-sm text-slate-600 mt-1">
+            Diagnostic knowledge assistant for medical analyzer communication protocols and hardware troubleshooting.
+          </p>
+        </div>
+        <div className="flex items-center gap-2 text-xs text-amber-700 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">
+          <Clock className="w-4 h-4 text-amber-600" />
+          <span>Backend Integration Scheduled for Phase 2</span>
+        </div>
+      </div>
+
+      {/* Architecture Disclaimer & Prototype Banner */}
+      <div className="bg-gradient-to-r from-amber-50 via-amber-50/60 to-slate-50 border border-amber-200 rounded-xl p-4 space-y-3">
+        <div className="flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+          <div className="space-y-1 text-xs text-slate-700">
+            <h3 className="font-bold text-slate-900 text-sm">
+              Trạng thái tính năng: Giao diện Prototype (AI Backend chưa kích hoạt)
+            </h3>
+            <p className="leading-relaxed">
+              Theo đúng quy hoạch kiến trúc, hệ thống portal chỉ đóng vai trò là một <strong>API Gateway / Proxy</strong> mỏng để không làm gánh nặng máy chủ web. Mô hình AI chuyên dụng (chạy trên server GPU nội bộ) sẽ được kết nối ở giai đoạn sau thông qua kênh bảo mật và rate-limiting server-side.
+            </p>
+          </div>
+        </div>
+
+        {/* Zero PHI Reminder */}
+        <div className="flex items-center gap-2 text-[11px] font-semibold text-rose-800 bg-rose-50 px-3 py-1.5 rounded-lg border border-rose-200">
+          <ShieldAlert className="w-4 h-4 text-rose-600 shrink-0" />
+          <span>Lưu ý an toàn: Tuyệt đối không nhập thông tin bệnh nhân (PHI), mã barcode bệnh án, hoặc kết quả xét nghiệm lâm sàng vào khung chat.</span>
+        </div>
+      </div>
+
+      {/* Main Chat Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Chat History and Input (Col 1 & 2) */}
+        <div className="lg:col-span-2 flex flex-col h-[560px] bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+          {/* Messages Scroll Area */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50/50">
+            {messages.map((m) => (
+              <div
+                key={m.id}
+                className={`flex gap-3 text-xs leading-relaxed max-w-2xl ${
+                  m.role === 'user' ? 'ml-auto flex-row-reverse' : ''
+                }`}
+              >
+                <div
+                  className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 ${
+                    m.role === 'user'
+                      ? 'bg-sky-600 text-white'
+                      : m.role === 'system'
+                      ? 'bg-slate-200 text-slate-700'
+                      : 'bg-amber-600 text-white'
+                  }`}
+                >
+                  {m.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
+                </div>
+
+                <div
+                  className={`p-3.5 rounded-2xl shadow-sm ${
+                    m.role === 'user'
+                      ? 'bg-sky-600 text-white rounded-tr-none'
+                      : 'bg-white text-slate-800 border border-slate-200 rounded-tl-none'
+                  }`}
+                >
+                  {m.isPrototypeResponse && (
+                    <span className="text-[10px] font-mono uppercase font-bold text-amber-700 block mb-1">
+                      [Prototype Simulation]
+                    </span>
+                  )}
+                  <p className="whitespace-pre-line font-sans">{m.content}</p>
+                  <span
+                    className={`block text-[10px] mt-1.5 ${
+                      m.role === 'user' ? 'text-sky-200 text-right' : 'text-slate-400'
+                    }`}
+                  >
+                    {formatDateTime(m.timestamp)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Chat Input Bar */}
+          <div className="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleSend();
+              }}
+              placeholder="Nhập câu hỏi kỹ thuật (ví dụ: Sơ đồ cáp RS232, mã lỗi Cobas, chuẩn ASTM)..."
+              className="flex-1 text-xs px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white text-slate-800"
+            />
+            <button
+              type="button"
+              onClick={() => handleSend()}
+              className="p-2.5 rounded-xl bg-sky-600 hover:bg-sky-700 text-white shadow-sm transition"
+              title="Gửi câu hỏi"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Quick Diagnostic Templates (Col 3) */}
+        <div className="space-y-4">
+          <Card>
+            <CardContent className="p-4 space-y-3">
+              <div className="flex items-center gap-2 text-xs font-bold text-slate-900 uppercase tracking-wider">
+                <Sparkles className="w-4 h-4 text-amber-600" />
+                <span>Câu Hỏi & Chẩn Đoán Mẫu</span>
+              </div>
+              <p className="text-xs text-slate-500">
+                Nhấp vào câu hỏi mẫu bên dưới để xem hướng dẫn xử lý kỹ thuật ngoại tuyến (offline diagnostic guidance):
+              </p>
+
+              <div className="space-y-2 pt-1">
+                {DIAGNOSTIC_TEMPLATES.map((tmpl) => (
+                  <button
+                    key={tmpl.id}
+                    type="button"
+                    onClick={() => handleSend(tmpl.prompt)}
+                    className="w-full text-left p-2.5 rounded-lg border border-slate-200 hover:border-sky-300 hover:bg-sky-50/50 transition group space-y-1"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-semibold text-slate-800 group-hover:text-sky-700">
+                        {tmpl.title}
+                      </span>
+                      <span className="text-[10px] uppercase font-mono px-1.5 py-0.2 rounded bg-slate-100 text-slate-600">
+                        {tmpl.category}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                      {tmpl.prompt}
+                    </p>
+                  </button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Technical Scope Card */}
+          <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs text-slate-600 space-y-2">
+            <span className="font-bold text-slate-800 flex items-center gap-1.5">
+              <Terminal className="w-4 h-4 text-slate-500" />
+              Kế Hoạch Triển Khai AI Gateway:
+            </span>
+            <ul className="list-disc list-inside space-y-1 text-slate-600 text-[11px]">
+              <li>Edge Function proxy ẩn giấu private token nội bộ.</li>
+              <li>Chỉ cho phép tài khoản Google Workspace <code className="bg-slate-200 px-1 py-0.2 rounded text-slate-800">@phuongdong.com.vn</code>.</li>
+              <li>Giới hạn 30 câu hỏi/phút tránh nghẽn GPU server.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

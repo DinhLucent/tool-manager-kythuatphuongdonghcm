@@ -17,7 +17,7 @@ This guide provides operational and quality instructions for developers working 
 | Command | Action | Verification Purpose |
 |---|---|---|
 | `pnpm install` | Install dependencies | Lockfile alignment (`pnpm-lock.yaml`) |
-| `pnpm dev` | Start development server on port 3000 | Interactive testing & local UI preview |
+| `pnpm dev` | Start development server on port 4868 | Interactive testing & local UI preview |
 | `pnpm test` | Run Vitest unit tests | Validates domain business logic (e.g., booking rules) |
 | `pnpm test:run` | Single test execution pass | CI verification |
 | `pnpm typecheck` | Strict TypeScript validation (`tsc --noEmit`) | Verifies zero type errors across the project |

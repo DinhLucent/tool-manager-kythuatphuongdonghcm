@@ -55,7 +55,7 @@ cp .env.example .env.local
 # 3. Start development server
 pnpm dev
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Open [http://localhost:4868](http://localhost:4868) in your browser.
 
 ### Quality Verification Commands
 ```bash

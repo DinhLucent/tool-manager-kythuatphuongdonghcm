@@ -4,9 +4,9 @@
   "private": true,
   "description": "Internal engineering workspace for Ho Chi Minh Technical Team",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 4868",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 4868",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "test": "vitest",

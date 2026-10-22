@@ -10,11 +10,13 @@ import {
   Terminal, 
   Menu, 
   X,
-  Gauge
+  Gauge,
+  Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/Badge';
 import { TechnicalLogo } from '@/components/TechnicalLogo';
+import { lockPortal } from '@/components/PasscodeGate';
 
 const navItems = [
   { href: '/knowledge', label: 'Tài Liệu TSC', icon: FileText },
@@ -102,6 +104,15 @@ export function Navbar() {
                 <span className="font-semibold text-slate-800">14 Kỹ Sư</span>
                 <span className="text-slate-400 font-mono ml-1">HCM</span>
               </div>
+              <button
+                type="button"
+                onClick={() => lockPortal()}
+                title="Khóa cổng nội bộ"
+                className="ml-1 p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-slate-100 transition"
+                aria-label="Khóa phiên làm việc"
+              >
+                <Lock className="w-3.5 h-3.5" />
+              </button>
             </div>
 
             <button
@@ -165,7 +176,17 @@ export function Navbar() {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
               Đội Ngũ Kỹ Thuật HCM
             </span>
-            <span className="font-mono text-slate-700 font-medium">14 Thành Viên</span>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                lockPortal();
+              }}
+              className="flex items-center gap-1 text-[11px] text-rose-600 font-medium hover:underline"
+            >
+              <Lock className="w-3 h-3" />
+              <span>Khóa Cổng</span>
+            </button>
           </div>
         </div>
       )}

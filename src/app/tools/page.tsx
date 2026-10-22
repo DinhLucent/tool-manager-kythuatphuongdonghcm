@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { ToolCatalogue } from '@/features/tools/components/ToolCatalogue';
 
 export const metadata: Metadata = {
-  title: 'Engineering Tools — HCM Engineering Portal',
-  description: 'Download verified software utilities, LIS connection bridges, and serial drivers with SHA-256 verification.',
+  title: 'Phần Mềm & Công Cụ — Kỹ Thuật Phương Đông',
+  description: 'Tải bộ cài đặt phần mềm, công cụ kết nối LIS và script kiểm tra chẩn đoán kỹ thuật Phương Đông.',
 };
 
 export default function ToolsPage() {

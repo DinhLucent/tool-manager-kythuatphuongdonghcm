@@ -13,6 +13,7 @@ export type Manufacturer =
   | 'Baxter'
   | 'Qiagen'
   | 'Analyticon'
+  | 'Furuno'
   | 'Terumo BCT'
   | 'Fujifilm'
   | 'Medtronic'

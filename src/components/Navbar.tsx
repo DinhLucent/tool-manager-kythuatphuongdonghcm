@@ -7,22 +7,20 @@ import {
   FileText, 
   Cpu, 
   ClipboardCheck, 
-  Terminal, 
+  Bot,
   Menu, 
   X,
   Gauge,
   Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Badge } from '@/components/Badge';
-import { TechnicalLogo } from '@/components/TechnicalLogo';
-import { lockPortal } from '@/components/PasscodeGate';
+import { TechnicalLogo } from './TechnicalLogo';
 
 const navItems = [
-  { href: '/knowledge', label: 'Tài Liệu TSC', icon: FileText },
-  { href: '/tools', label: 'Phần Mềm & Ghost', icon: Cpu },
-  { href: '/booking', label: 'Thiết Bị Đi Viện', icon: ClipboardCheck },
-  { href: '/chat', label: 'Technical Chat', icon: Terminal, badge: 'Beta' },
+  { href: '/knowledge', label: 'Tài Liệu Kỹ Thuật', icon: FileText, desc: 'Service Manual & Sơ đồ cáp' },
+  { href: '/tools', label: 'Phần Mềm & Công Cụ', icon: Cpu, desc: 'LIS Server & Script Checksum' },
+  { href: '/booking', label: 'Đặt Tool', icon: ClipboardCheck, badge: 'Sắp ra mắt', desc: 'Kế hoạch triển khai' },
+  { href: '/chat', label: 'Chat Kỹ Thuật', icon: Bot, badge: 'Sắp ra mắt', desc: 'Trợ lý tra cứu mã lỗi' },
 ];
 
 export function Navbar() {
@@ -30,41 +28,42 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
-      <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-6">
-        <div className="flex justify-between items-center h-13 sm:h-14">
+    <header className="sticky top-0 z-50 bg-white text-slate-800 border-b border-slate-200 shadow-xs">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="flex justify-between items-center h-14 gap-3">
           {/* Logo & Portal Brand */}
-          <div className="flex items-center gap-2.5">
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="w-7 h-7 rounded bg-sky-700 text-white flex items-center justify-center border border-sky-800/40 shadow-2xs group-hover:bg-sky-800 transition">
-                <TechnicalLogo className="w-4 h-4" />
+          <div className="flex items-center gap-3 shrink-0">
+            <Link 
+              href="/" 
+              className="flex items-center gap-2.5 group"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <div className="w-8 h-8 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-red-600 shadow-2xs group-hover:bg-red-100 transition shrink-0">
+                <TechnicalLogo className="w-5 h-5 text-red-600" />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight flex items-center gap-1.5">
-                  HCM Engineering
-                  <span className="text-[9px] font-mono font-semibold uppercase px-1 py-0.2 rounded bg-sky-100 text-sky-800 border border-sky-200/70">
-                    TSC
-                  </span>
+                <span className="font-bold text-slate-900 text-sm tracking-tight group-hover:text-red-600 transition leading-tight">
+                  Kỹ Thuật Phương Đông
                 </span>
-                <span className="text-[10px] text-slate-500 font-mono hidden xs:block">
-                  Phuong Dong Medical • Field Ops
+                <span className="text-[10px] text-slate-500 font-medium">
+                  Miền Trung & Miền Nam
                 </span>
               </div>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-1 text-xs">
+          <nav className="hidden lg:flex items-center gap-1 text-xs">
             <Link
               href="/"
               className={cn(
-                'flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-medium transition',
+                'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition whitespace-nowrap',
                 pathname === '/'
-                  ? 'bg-slate-100 text-slate-900 font-semibold border border-slate-200/70'
-                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                  ? 'bg-red-50 text-red-700 font-semibold border border-red-200 shadow-2xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
               )}
             >
-              <Gauge className="w-3.5 h-3.5 text-slate-500" />
+              <Gauge className={cn('w-3.5 h-3.5', pathname === '/' ? 'text-red-600' : 'text-slate-400')} />
               <span>Tổng Quan</span>
             </Link>
             {navItems.map((item) => {
@@ -75,53 +74,49 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'flex items-center gap-1.5 px-2.5 py-1.5 rounded text-xs font-medium transition',
+                    'flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition whitespace-nowrap',
                     isActive
-                      ? 'bg-sky-50 text-sky-700 font-semibold border border-sky-200/80'
-                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+                      ? 'bg-red-50 text-red-700 font-semibold border border-red-200 shadow-2xs'
+                      : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                   )}
                 >
-                  <Icon className="w-3.5 h-3.5" />
+                  <Icon className={cn('w-3.5 h-3.5', isActive ? 'text-red-600' : 'text-slate-400')} />
                   <span>{item.label}</span>
                   {item.badge && (
-                    <Badge tone="warning" size="sm" mono className="text-[9px] px-1 py-0">
+                    <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-amber-50 text-amber-700 border border-amber-200/80">
                       {item.badge}
-                    </Badge>
+                    </span>
                   )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Team Indicator & Mobile Menu Toggle */}
-          <div className="flex items-center gap-2">
-            <div className="hidden sm:flex items-center gap-2 pl-2.5 border-l border-slate-200 text-xs">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              <div className="text-[11px] text-slate-600">
-                <span className="font-semibold text-slate-800">14 Kỹ Sư</span>
-                <span className="text-slate-400 font-mono ml-1">HCM</span>
-              </div>
-              <button
-                type="button"
-                onClick={() => lockPortal()}
-                title="Khóa cổng nội bộ"
-                className="ml-1 p-1 rounded text-slate-400 hover:text-rose-600 hover:bg-slate-100 transition"
-                aria-label="Khóa phiên làm việc"
-              >
-                <Lock className="w-3.5 h-3.5" />
-              </button>
-            </div>
+          {/* Right Actions: Lock Portal + Mobile Menu */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== 'undefined') {
+                  localStorage.removeItem('hcm_engineering_passcode_auth');
+                  window.location.reload();
+                }
+              }}
+              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-lg border border-slate-200 transition"
+              title="Khóa cổng thông tin (yêu cầu passcode khi truy cập lại)"
+            >
+              <Lock className="w-3.5 h-3.5 text-slate-500" />
+              <span className="hidden sm:inline">Khóa Cổng</span>
+            </button>
 
+            {/* Mobile Menu Button */}
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-1.5 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition border border-transparent focus:border-slate-300"
+              className="lg:hidden p-1.5 rounded-lg text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition border border-slate-200"
               aria-label="Chuyển đổi menu điều hướng"
             >
-              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -129,18 +124,18 @@ export function Navbar() {
 
       {/* Mobile Navigation Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-slate-200 bg-white/98 px-3 pt-2 pb-3 space-y-1 shadow-lg animate-in fade-in slide-in-from-top-1 duration-150">
+        <div className="lg:hidden border-t border-slate-200 bg-white px-3 pt-2 pb-3 space-y-1 shadow-md animate-in fade-in slide-in-from-top-1 duration-150">
           <Link
             href="/"
             onClick={() => setMobileMenuOpen(false)}
             className={cn(
-              'flex items-center gap-2 px-2.5 py-1.5 rounded text-xs font-medium',
+              'flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-medium',
               pathname === '/'
-                ? 'bg-slate-100 text-slate-900 font-semibold'
-                : 'text-slate-700 hover:bg-slate-50'
+                ? 'bg-red-50 text-red-700 font-semibold border border-red-200'
+                : 'text-slate-700 hover:bg-slate-100'
             )}
           >
-            <Gauge className="w-4 h-4 text-slate-500" />
+            <Gauge className="w-4 h-4 text-red-600" />
             <span>Tổng Quan</span>
           </Link>
           {navItems.map((item) => {
@@ -152,42 +147,29 @@ export function Navbar() {
                 href={item.href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  'flex items-center justify-between px-2.5 py-1.5 rounded text-xs font-medium',
+                  'flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium',
                   isActive
-                    ? 'bg-sky-50 text-sky-700 font-semibold border border-sky-100'
-                    : 'text-slate-700 hover:bg-slate-50'
+                    ? 'bg-red-50 text-red-700 font-semibold border border-red-200'
+                    : 'text-slate-700 hover:bg-slate-100'
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <Icon className="w-4 h-4 text-slate-500" />
-                  <span>{item.label}</span>
+                  <Icon className={cn('w-4 h-4', isActive ? 'text-red-600' : 'text-slate-500')} />
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-1.5">
+                      <span>{item.label}</span>
+                      {item.badge && (
+                        <span className="text-[9px] font-mono px-1 py-0.2 rounded bg-amber-50 text-amber-700 border border-amber-200/80">
+                          {item.badge}
+                        </span>
+                      )}
+                    </div>
+                    <span className="text-[10px] text-slate-400">{item.desc}</span>
+                  </div>
                 </div>
-                {item.badge && (
-                  <Badge tone="warning" size="sm" mono>
-                    {item.badge}
-                  </Badge>
-                )}
               </Link>
             );
           })}
-
-          <div className="pt-2 mt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500 px-2.5">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-              Đội Ngũ Kỹ Thuật HCM
-            </span>
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                lockPortal();
-              }}
-              className="flex items-center gap-1 text-[11px] text-rose-600 font-medium hover:underline"
-            >
-              <Lock className="w-3 h-3" />
-              <span>Khóa Cổng</span>
-            </button>
-          </div>
         </div>
       )}
     </header>

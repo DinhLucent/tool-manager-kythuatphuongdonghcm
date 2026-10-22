@@ -55,7 +55,7 @@ export function CheckoutModal({
 
     onSubmit({
       equipmentId: equipment.id,
-      engineerId: 'eng-14',
+      engineerId: `eng-${Date.now()}`,
       engineerName: engineerName.trim(),
       siteName: siteName.trim(),
       purpose: purpose.trim(),
@@ -79,11 +79,11 @@ export function CheckoutModal({
         {/* Modal Header */}
         <div className="flex items-center justify-between p-3.5 sm:p-4 border-b border-slate-100 bg-slate-50/70">
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded bg-sky-100 text-sky-800">
+            <div className="p-1.5 rounded bg-red-50 text-red-600">
               <ClipboardCheck className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-slate-900 text-sm">Phiếu Mượn Thiết Bị Đi Viện</h3>
+              <h3 className="font-bold text-slate-900 text-sm">Phiếu Đặt Tool Kỹ Thuật</h3>
               <p className="text-[10px] text-slate-500 font-mono">
                 {equipment.assetCode} — {equipment.name}
               </p>
@@ -124,8 +124,8 @@ export function CheckoutModal({
               required
               value={engineerName}
               onChange={(e) => setEngineerName(e.target.value)}
-              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:bg-white text-slate-900"
-              placeholder="VD: Lê Hoàng Nam"
+              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-red-500 focus:bg-white text-slate-900"
+              placeholder="VD: Kỹ sư Nguyễn Văn A"
             />
           </div>
 
@@ -139,8 +139,8 @@ export function CheckoutModal({
               required
               value={siteName}
               onChange={(e) => setSiteName(e.target.value)}
-              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:bg-white text-slate-900"
-              placeholder="VD: Bệnh viện Chợ Rẫy (Khoa Sinh Hóa)"
+              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-red-500 focus:bg-white text-slate-900"
+              placeholder="VD: Bệnh viện Chợ Rẫy (Khoa Hóa Sinh)"
             />
           </div>
 
@@ -154,8 +154,8 @@ export function CheckoutModal({
               rows={2}
               value={purpose}
               onChange={(e) => setPurpose(e.target.value)}
-              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:bg-white text-slate-900 resize-none"
-              placeholder="VD: Cài đặt đường truyền LIS máy Cobas c501 và kiểm tra cổng RS-232"
+              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-red-500 focus:bg-white text-slate-900 resize-none"
+              placeholder="VD: Cài đặt đường truyền LIS máy xét nghiệm và kiểm tra cổng RS-232"
             />
           </div>
 
@@ -169,7 +169,7 @@ export function CheckoutModal({
               required
               value={expectedReturnDate}
               onChange={(e) => setExpectedReturnDate(e.target.value)}
-              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:bg-white text-slate-900 font-mono"
+              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-red-500 focus:bg-white text-slate-900 font-mono"
             />
           </div>
 
@@ -182,7 +182,7 @@ export function CheckoutModal({
               type="text"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:bg-white text-slate-900"
+              className="w-full text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-red-500 focus:bg-white text-slate-900"
               placeholder="VD: Kèm cáp chuyển DB9 to USB và adaptor nguồn 12V"
             />
           </div>
@@ -198,9 +198,9 @@ export function CheckoutModal({
             </button>
             <button
               type="submit"
-              className="px-3 py-1.5 text-xs font-semibold bg-sky-700 hover:bg-sky-800 text-white rounded shadow-2xs transition"
+              className="px-3 py-1.5 text-xs font-semibold bg-red-600 hover:bg-red-700 text-white rounded shadow-2xs transition"
             >
-              Xác Nhận Xuất Kho
+              Xác Nhận Đặt Tool
             </button>
           </div>
         </form>

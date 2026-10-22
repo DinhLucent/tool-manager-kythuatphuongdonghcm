@@ -1,237 +1,191 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
+import Link from 'next/link';
 import { 
-  Terminal, 
+  Bot, 
   Send, 
-  SearchCode, 
   AlertCircle, 
-  ShieldAlert, 
+  ShieldCheck, 
   Cpu, 
-  User, 
-  Clock 
+  FileText, 
+  Cable, 
+  Lock, 
+  ArrowLeft,
+  Sparkles,
+  CheckCircle2
 } from 'lucide-react';
-import { ChatMessage } from '../types';
-import { DIAGNOSTIC_TEMPLATES, MOCK_KNOWLEDGE_REPLIES } from '../data';
 import { Badge } from '@/components/Badge';
 import { Card, CardContent } from '@/components/Card';
-import { formatDateTime } from '@/lib/utils';
 
 export function ChatPlaceholder() {
-  const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<ChatMessage[]>([
+  const plannedCapabilities = [
     {
-      id: 'msg-0',
-      role: 'system',
-      content: 'Trợ lý kỹ thuật hiện trường (chế độ tra cứu nội bộ). Chọn câu hỏi mẫu hoặc nhập model máy xét nghiệm để tra cứu sơ đồ cổng COM, đặc tả bản tin ASTM và hướng dẫn xử lý sự cố kết nối.',
-      timestamp: new Date().toISOString(),
-      isPrototypeResponse: true,
+      title: 'Tra Cứu Mã Lỗi & Sự Cố Máy',
+      description: 'Tổng hợp mã cảnh báo từ cẩm nang Service Manual các dòng Bio-Rad (Evolis, D-100), Nihon Kohden (MEK), Baxter (AK98, Prismaflex), Qiagen... và gợi ý hướng khắc phục tại chỗ.',
+      icon: Cpu,
+      iconColor: 'text-red-600',
+      iconBg: 'bg-red-50 border-red-200',
     },
-  ]);
-
-  const handleSend = (textToSend?: string) => {
-    const query = (textToSend || input).trim();
-    if (!query) return;
-
-    const userMessage: ChatMessage = {
-      id: `msg-${Date.now()}`,
-      role: 'user',
-      content: query,
-      timestamp: new Date().toISOString(),
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    if (!textToSend) setInput('');
-
-    // Check if query matches any known template
-    setTimeout(() => {
-      let replyContent = '';
-      const matchedTemplate = DIAGNOSTIC_TEMPLATES.find((t) => t.prompt === query);
-
-      if (matchedTemplate && MOCK_KNOWLEDGE_REPLIES[matchedTemplate.id]) {
-        replyContent = MOCK_KNOWLEDGE_REPLIES[matchedTemplate.id];
-      } else {
-        replyContent = `[Ghi nhận yêu cầu tra cứu]:
-Hệ thống AI Gateway nội bộ đang trong giai đoạn hoàn thiện kết nối.
-Nội dung yêu cầu: "${query}".
-
-Vui lòng tham khảo cẩm nang chi tiết tại tab Tài Liệu TSC (/knowledge) hoặc đối chiếu sơ đồ chân cáp chuẩn RS-232 tại hiện trường.`;
-      }
-
-      const assistantMessage: ChatMessage = {
-        id: `msg-${Date.now() + 1}`,
-        role: 'assistant',
-        content: replyContent,
-        timestamp: new Date().toISOString(),
-        isPrototypeResponse: true,
-      };
-
-      setMessages((prev) => [...prev, assistantMessage]);
-    }, 400);
-  };
+    {
+      title: 'Giải Mã Giao Thức LIS ASTM / HL7',
+      description: 'Phân tích cấu trúc khung tin ASTM 1381/1394, gói tin HL7 ORU-R01, hỗ trợ tính mã kiểm tra Checksum Modulo 256 và hướng dẫn bắt tay (handshake) cổng nối tiếp.',
+      icon: FileText,
+      iconColor: 'text-sky-600',
+      iconBg: 'bg-sky-50 border-sky-200',
+    },
+    {
+      title: 'Sơ Đồ Cáp COM & Cấu Hình Moxa',
+      description: 'Tra cứu nhanh sơ đồ hàn chân cáp DB9/RJ45 (Null Modem, Loopback), thông số baudrate/parity và hướng dẫn cài đặt driver bộ chuyển đổi Moxa UPort.',
+      icon: Cable,
+      iconColor: 'text-amber-600',
+      iconBg: 'bg-amber-50 border-amber-200',
+    },
+  ];
 
   return (
-    <div className="space-y-4">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200/90 pb-3">
+    <div className="space-y-4 max-w-5xl mx-auto">
+      {/* Thanh tiêu đề trang */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200 pb-3">
         <div>
-          <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-amber-700" />
-            Trợ Lý Kỹ Thuật Hiện Trường
-            <Badge tone="warning" size="sm" mono>Beta Prototype</Badge>
-          </h1>
-          <p className="text-xs text-slate-600 mt-0.5">
-            Tra cứu thông số cổng nối tiếp RS-232, mã lỗi thiết bị và định dạng bản tin ASTM/HL7.
+          <div className="flex items-center gap-2">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-800 transition mr-1"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Tổng quan</span>
+            </Link>
+            <span className="text-slate-300">/</span>
+            <h1 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight flex items-center gap-2">
+              <Bot className="w-5 h-5 text-amber-600" />
+              Trợ Lý Kỹ Thuật AI (Chatbot)
+            </h1>
+            <Badge tone="warning" size="sm" mono>
+              Chưa Triển Khai
+            </Badge>
+          </div>
+          <p className="text-xs text-slate-600 mt-1">
+            Bản xem trước giới thiệu tính năng trợ lý AI hỗ trợ kỹ sư y sinh Phương Đông tra cứu hiện trường.
           </p>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200/90 shrink-0 font-mono shadow-2xs">
-          <Clock className="w-3.5 h-3.5 text-amber-600" />
-          <span>AI Gateway Chờ Kích Hoạt</span>
+
+        <div className="flex items-center gap-1.5 text-xs text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 shrink-0 font-mono">
+          <Lock className="w-3.5 h-3.5 text-slate-500" />
+          <span>Trạng thái: Tạm khóa (Disabled)</span>
         </div>
       </div>
 
-      {/* Offline Mode & Safety Notice */}
-      <div className="bg-slate-50 border border-slate-200/90 rounded-lg p-3 space-y-2 text-xs">
-        <div className="flex items-start gap-2">
-          <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-          <div className="space-y-0.5 text-slate-700">
-            <h3 className="font-semibold text-slate-900 text-xs">
-              Chế độ chẩn đoán offline (AI Gateway đang cấu hình)
-            </h3>
-            <p className="text-[11px] leading-relaxed text-slate-600">
-              Hệ thống cung cấp sẵn các mẫu hướng dẫn xử lý sự cố truyền thông và cấu hình cổng nối tiếp thường gặp khi làm việc tại bệnh viện.
+      {/* Banner Giới Thiệu Tính Năng */}
+      <div className="bg-amber-50/70 border border-amber-200 rounded-xl p-4 sm:p-5 text-xs text-amber-950 space-y-2">
+        <div className="flex items-start gap-2.5">
+          <Sparkles className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <h2 className="font-bold text-sm text-amber-900">
+              Giới Thiệu Tính Năng Trợ Lý AI Kỹ Thuật (Sắp Ra Mắt)
+            </h2>
+            <p className="text-xs text-amber-900/90 leading-relaxed">
+              Tính năng AI Chatbot hiện đang được xây dựng dữ liệu tri thức nội bộ và tinh chỉnh mô hình ngoại tuyến an toàn (nguyên tắc Zero PHI). 
+              Giao diện dưới đây nhằm mục đích <strong>giới thiệu trước định hướng công cụ</strong> cho toàn thể đội ngũ kỹ sư Miền Trung & Miền Nam. 
+              Hệ thống hiện <strong>chưa kích hoạt nhận tin nhắn</strong>.
             </p>
           </div>
         </div>
 
-        {/* Zero PHI Reminder */}
-        <div className="flex items-center gap-1.5 text-[10px] font-semibold text-rose-800 bg-rose-50 px-2 py-1 rounded border border-rose-200/70">
-          <ShieldAlert className="w-3.5 h-3.5 text-rose-600 shrink-0" />
-          <span>Cảnh báo an toàn: Tuyệt đối không nhập thông tin bệnh nhân, số hồ sơ bệnh án hoặc dữ liệu xét nghiệm.</span>
+        <div className="pt-2 border-t border-amber-200/60 flex items-center gap-1.5 text-[11px] text-amber-900 font-mono">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+          <span>Cam kết bảo mật Zero PHI: Mô hình chỉ phản hồi thông tin kỹ thuật, không lưu trữ thông tin bệnh nhân hay kết quả xét nghiệm.</span>
         </div>
       </div>
 
-      {/* Main Chat Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-3.5">
-        {/* Chat History and Input (Col 1 & 2) */}
-        <div className="lg:col-span-2 flex flex-col h-[480px] sm:h-[520px] bg-white rounded-lg border border-slate-200/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)] overflow-hidden">
-          {/* Messages Scroll Area */}
-          <div className="flex-1 overflow-y-auto p-3.5 space-y-3 bg-slate-50/40">
-            {messages.map((m) => (
-              <div
-                key={m.id}
-                className={`flex gap-2 text-xs leading-relaxed max-w-xl ${
-                  m.role === 'user' ? 'ml-auto flex-row-reverse' : ''
-                }`}
-              >
-                <div
-                  className={`w-6 h-6 rounded flex items-center justify-center shrink-0 text-white ${
-                    m.role === 'user'
-                      ? 'bg-sky-700'
-                      : m.role === 'system'
-                      ? 'bg-slate-300 text-slate-700'
-                      : 'bg-amber-700'
-                  }`}
-                >
-                  {m.role === 'user' ? <User className="w-3.5 h-3.5" /> : <Cpu className="w-3.5 h-3.5" />}
-                </div>
+      {/* 3 Năng Lực Cốt Lõi Dự Kiến */}
+      <div>
+        <h3 className="text-xs font-mono font-bold text-slate-800 uppercase tracking-wider mb-2.5">
+          Các Năng Lực Dự Kiến Hỗ Trợ Kỹ Sư
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {plannedCapabilities.map((cap) => {
+            const Icon = cap.icon;
+            return (
+              <Card key={cap.title} className="bg-white border-slate-200 shadow-2xs">
+                <CardContent className="p-4 space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center border ${cap.iconBg} shrink-0`}>
+                      <Icon className={`w-4 h-4 ${cap.iconColor}`} />
+                    </div>
+                    <h4 className="font-bold text-xs text-slate-900 leading-snug">
+                      {cap.title}
+                    </h4>
+                  </div>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    {cap.description}
+                  </p>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      </div>
 
-                <div
-                  className={`p-2.5 sm:p-3 rounded-lg shadow-2xs ${
-                    m.role === 'user'
-                      ? 'bg-sky-700 text-white rounded-tr-none'
-                      : 'bg-white text-slate-800 border border-slate-200/90 rounded-tl-none'
-                  }`}
-                >
-                  {m.isPrototypeResponse && (
-                    <span className="text-[9px] font-mono uppercase font-semibold text-amber-700 block mb-0.5">
-                      [Phản Hồi Mẫu]
-                    </span>
-                  )}
-                  <p className="whitespace-pre-line font-sans text-xs">{m.content}</p>
-                  <span
-                    className={`block text-[9px] mt-1 font-mono ${
-                      m.role === 'user' ? 'text-sky-200 text-right' : 'text-slate-400'
-                    }`}
-                  >
-                    {formatDateTime(m.timestamp)}
-                  </span>
-                </div>
-              </div>
-            ))}
+      {/* Khung Giao Diện Minh Họa (Disabled Preview) */}
+      <div className="bg-white rounded-xl border border-slate-200 shadow-xs overflow-hidden">
+        <div className="bg-slate-50 border-b border-slate-200 px-4 py-2.5 flex items-center justify-between text-xs">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+            <span className="font-mono font-semibold text-slate-700">Khung Trò Chuyện Xem Trước (Preview Only)</span>
           </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-200/80 text-slate-600">
+            Chưa Kích Hoạt
+          </span>
+        </div>
 
-          {/* Chat Input Bar */}
-          <div className="p-2.5 bg-white border-t border-slate-200 flex items-center gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleSend();
-              }}
-              placeholder="Nhập câu hỏi (ví dụ: Sơ đồ cáp RS232, mã lỗi Cobas, chuẩn ASTM)..."
-              className="flex-1 text-xs px-3 py-1.5 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:bg-white text-slate-800"
-            />
-            <button
-              type="button"
-              onClick={() => handleSend()}
-              className="px-2.5 py-1.5 rounded bg-sky-700 hover:bg-sky-800 text-white shadow-2xs transition"
-              title="Gửi câu hỏi"
-            >
-              <Send className="w-3.5 h-3.5" />
-            </button>
+        {/* Nội dung tin nhắn mẫu minh họa */}
+        <div className="p-4 sm:p-5 space-y-3 bg-slate-50/40 min-h-[180px]">
+          {/* Tin nhắn hệ thống */}
+          <div className="flex gap-2.5 max-w-xl text-xs">
+            <div className="w-6 h-6 rounded bg-slate-200 flex items-center justify-center shrink-0 text-slate-600">
+              <Bot className="w-3.5 h-3.5" />
+            </div>
+            <div className="p-3 rounded-lg bg-white border border-slate-200 shadow-2xs text-slate-700 space-y-1">
+              <div className="flex items-center gap-1.5 text-[10px] font-mono font-semibold text-slate-500">
+                <span>[MÔ PHỎNG PHẢN HỒI KHI KÍCH HOẠT]</span>
+              </div>
+              <p className="text-xs leading-relaxed">
+                Xin chào kỹ sư Phương Đông. Khi tính năng được kích hoạt, tôi có thể hỗ trợ bạn tra cứu:
+              </p>
+              <ul className="text-[11px] text-slate-600 list-disc list-inside space-y-0.5 pt-1">
+                <li>Sơ đồ chân cáp Null Modem DB9 cho máy Bio-Rad Evolis / D-100</li>
+                <li>Mã lỗi E-03, E-12 máy huyết học Nihon Kohden MEK-9100</li>
+                <li>Công thức tính checksum bản tin ASTM 1381 truyền sang máy chủ LIS</li>
+              </ul>
+            </div>
           </div>
         </div>
 
-        {/* Quick Diagnostic Templates (Col 3) */}
-        <div className="space-y-3">
-          <Card className="bg-white">
-            <CardContent className="p-3 space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 uppercase tracking-wider font-mono">
-                <SearchCode className="w-3.5 h-3.5 text-slate-600" />
-                <span>Mẫu Tra Cứu Sự Cố</span>
-              </div>
-              <p className="text-[11px] text-slate-500">
-                Chọn tình huống cần hỗ trợ để xem quy trình xử lý kỹ thuật:
-              </p>
-
-              <div className="space-y-1.5 pt-0.5">
-                {DIAGNOSTIC_TEMPLATES.map((tmpl) => (
-                  <button
-                    key={tmpl.id}
-                    type="button"
-                    onClick={() => handleSend(tmpl.prompt)}
-                    className="w-full text-left p-2 rounded border border-slate-200/90 hover:border-sky-300 hover:bg-sky-50/40 transition group space-y-0.5"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-semibold text-slate-800 group-hover:text-sky-800">
-                        {tmpl.title}
-                      </span>
-                      <span className="text-[9px] uppercase font-mono px-1 py-0.2 rounded bg-slate-100 text-slate-600">
-                        {tmpl.category}
-                      </span>
-                    </div>
-                    <p className="text-[10px] text-slate-500 line-clamp-2 leading-relaxed">
-                      {tmpl.prompt}
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Technical Scope Card */}
-          <div className="bg-slate-50 p-3 rounded-lg border border-slate-200/90 text-xs text-slate-600 space-y-1.5">
-            <span className="font-semibold text-slate-800 flex items-center gap-1 text-[11px] font-mono uppercase">
-              <Terminal className="w-3 h-3 text-slate-500" />
-              Thông số kỹ thuật Gateway:
-            </span>
-            <ul className="list-disc list-inside space-y-0.5 text-slate-600 text-[11px]">
-              <li>Định tuyến qua Edge Function proxy nội bộ.</li>
-              <li>Xác thực tài khoản Google Workspace Phương Đông.</li>
-              <li>Giới hạn 30 truy vấn/phút để ổn định tài nguyên mạng.</li>
-            </ul>
+        {/* Khung nhập liệu bị Disable */}
+        <div className="p-3 bg-slate-50 border-t border-slate-200 space-y-2">
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              disabled
+              placeholder="[TẠM KHÓA] Tính năng Chatbot đang trong giai đoạn giới thiệu, chưa mở nhận tin nhắn..."
+              className="flex-1 text-xs px-3.5 py-2.5 bg-slate-100 border border-slate-200 rounded-lg text-slate-400 cursor-not-allowed select-none"
+            />
+            <button
+              type="button"
+              disabled
+              title="Tính năng chưa được triển khai"
+              className="px-3.5 py-2.5 rounded-lg bg-slate-200 text-slate-400 cursor-not-allowed select-none flex items-center gap-1 text-xs font-semibold"
+            >
+              <Send className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Gửi</span>
+            </button>
+          </div>
+          <div className="flex items-center justify-between text-[11px] text-slate-500 px-1">
+            <span>* Khung trò chuyện đang bị vô hiệu hóa vì tính năng chưa được triển khai chính thức.</span>
+            <Link href="/knowledge" className="text-red-600 hover:underline font-medium">
+              Vào tra cứu tài liệu →
+            </Link>
           </div>
         </div>
       </div>

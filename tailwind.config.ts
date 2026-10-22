@@ -18,7 +18,26 @@ const config: Config = {
       backdropBlur: {
         xs: '2px',
       },
+      fontFamily: {
+        sans: ['Inter', 'Segoe UI', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['Cascadia Mono', 'Consolas', 'JetBrains Mono', 'ui-monospace', 'monospace'],
+      },
       colors: {
+        clinical: {
+          navy: '#07384e',
+          dark: '#04283d',
+          deep: '#031e2d',
+          border: '#0b405f',
+          accent: '#0b6fae',
+          accentHover: '#095f95',
+          light: '#eaf3ff',
+          success: '#16803c',
+          successLight: '#ecf8e9',
+          warning: '#d97706',
+          warningLight: '#fff4e5',
+          danger: '#c62828',
+          dangerLight: '#fdeaea',
+        },
         brand: {
           50: '#f0f9ff',
           100: '#e0f2fe',

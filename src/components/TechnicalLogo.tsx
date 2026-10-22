@@ -9,7 +9,7 @@ interface TechnicalLogoProps {
  * Combines an orthogonal calibration reticle with a diagnostic pulse trace,
  * representing biomedical instrumentation, precision optics, and field diagnostics.
  */
-export function TechnicalLogo({ className = 'w-4 h-4' }: TechnicalLogoProps) {
+export function TechnicalLogo({ className = 'w-4 h-4 text-red-600' }: TechnicalLogoProps) {
   return (
     <svg
       className={className}

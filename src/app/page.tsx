@@ -4,188 +4,213 @@ import {
   FileText, 
   Cpu, 
   ClipboardCheck, 
-  Terminal, 
+  Bot,
   ArrowRight, 
-  ShieldCheck, 
-  Binary, 
-  HardDrive,
-  ExternalLink 
+  ExternalLink,
+  FolderOpen
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/Card';
-import { Badge } from '@/components/Badge';
-import { TechnicalLogo } from '@/components/TechnicalLogo';
+import { SAMPLE_DOCUMENTS_DATA } from '@/features/knowledge/data';
+import { SAMPLE_TOOLS_DATA } from '@/features/tools/data';
 
 export default function HomePage() {
-  const features = [
-    {
-      title: 'Kho Tài Liệu Kỹ Thuật (TSC)',
-      description: 'Chỉ mục Service Manual, sơ đồ mạch, sơ đồ chân cáp RS-232 và đặc tả giao thức ASTM 1381/1394, HL7 v2.x cho các dòng máy xét nghiệm Phương Đông.',
-      href: '/knowledge',
-      icon: FileText,
-      iconColor: 'text-sky-700',
-      iconBg: 'bg-sky-50 border border-sky-100',
-      badge: 'SharePoint Sync',
-      stats: '15+ Service Manuals',
-      cta: 'Tra Cứu Tài Liệu',
-    },
-    {
-      title: 'Phần Mềm & Bản Ghost Máy',
-      description: 'Bộ cài LIS Bridge, công cụ kiểm tra cổng COM, driver Moxa và file Ghost theo dòng máy với mã kiểm tra toàn vẹn SHA-256.',
-      href: '/tools',
-      icon: Cpu,
-      iconColor: 'text-indigo-700',
-      iconBg: 'bg-indigo-50 border border-indigo-100',
-      badge: 'Offline Ready',
-      stats: '6 Software Packages',
-      cta: 'Tải Bộ Cài Đặt',
-    },
-    {
-      title: 'Thiết Bị & Dụng Cụ Đi Viện',
-      description: 'Sổ theo dõi bàn giao, mượn và hoàn trả thiết bị kiểm chuẩn hiện trường: bộ chuyển đổi Moxa, đồng hồ đo Fluke, bộ cân chỉnh quang học.',
-      href: '/booking',
-      icon: ClipboardCheck,
-      iconColor: 'text-emerald-700',
-      iconBg: 'bg-emerald-50 border border-emerald-100',
-      badge: 'Kho Thiết Bị',
-      stats: '6 Equipment Items',
-      cta: 'Quản Lý Mượn Trả',
-    },
-    {
-      title: 'Trợ Lý Kỹ Thuật (Chat Beta)',
-      description: 'Hỗ trợ tra cứu nhanh mã lỗi máy xét nghiệm và gợi ý sơ đồ chân cáp nối tiếp RS-232 trong chế độ ngoại tuyến.',
-      href: '/chat',
-      icon: Terminal,
-      iconColor: 'text-amber-700',
-      iconBg: 'bg-amber-50 border border-amber-100',
-      badge: 'Beta Prototype',
-      stats: 'Diagnostic Templates',
-      cta: 'Mở Khung Tra Cứu',
-    },
-  ];
+  const docCount = SAMPLE_DOCUMENTS_DATA.length;
+  const toolCount = SAMPLE_TOOLS_DATA.length;
 
   return (
-    <div className="space-y-4 sm:space-y-5">
-      {/* Technical Header Banner */}
-      <div className="bg-white border border-slate-200/90 rounded-lg p-4 sm:p-5 shadow-[0_1px_2px_rgba(0,0,0,0.03)] relative overflow-hidden">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-3 mb-3">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-sky-50 border border-sky-200/80 text-sky-800 text-[10px] font-mono font-semibold uppercase tracking-wider">
-              <TechnicalLogo className="w-3 h-3 text-sky-600" />
-              Field Engineering Hub • HCM Team
-            </span>
-            <span className="font-mono text-[10px] text-slate-400 hidden xs:inline">
-              14 Engineers
-            </span>
-          </div>
-          <div className="flex items-center gap-2 text-[10px] text-slate-500 font-mono">
-            <span>SEC: Zero PHI</span>
-            <span>•</span>
-            <span className="text-emerald-600 font-semibold">ONLINE</span>
-          </div>
-        </div>
-
-        <div className="space-y-1.5">
-          <h1 className="text-lg sm:text-xl font-bold tracking-tight text-slate-900">
-            HCM Technical & Field Engineering Portal
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-3xl">
-            Cổng thông tin kỹ thuật hiện trường cho đội ngũ kỹ sư Phương Đông tại TP.HCM. Tra cứu cẩm nang thiết bị y tế, tải phần mềm LIS/Ghost máy và quản lý thiết bị kiểm định.
-          </p>
-        </div>
-
-        {/* Feature Badges Bar */}
-        <div className="mt-3 pt-3 border-t border-slate-100 flex flex-wrap gap-2 text-[11px] text-slate-600 font-mono">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-50 border border-slate-200/80">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Zero PHI</span>
-          </span>
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-50 border border-slate-200/80">
-            <Binary className="w-3.5 h-3.5 text-sky-600" />
-            <span>ASTM 1381/1394 & HL7 v2.x</span>
-          </span>
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-50 border border-slate-200/80">
-            <HardDrive className="w-3.5 h-3.5 text-indigo-600" />
-            <span>Phần Mềm & Driver Cục Bộ</span>
-          </span>
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-slate-50 border border-slate-200/80 text-sky-700">
-            <ExternalLink className="w-3 h-3" />
-            <span>SharePoint TSC Direct Sync</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Feature Grid */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
+    <div className="space-y-6 max-w-5xl mx-auto py-2">
+      {/* Tiêu đề & Liên kết SharePoint trực tiếp */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200 pb-4">
+        <div className="flex items-center gap-3">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-600 shrink-0"></span>
           <div>
-            <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-              <span>Phân Hệ Nghiệp Vụ Hiện Trường</span>
-            </h2>
+            <h1 className="text-base font-bold text-slate-900 tracking-tight">
+              Đội Kỹ Thuật Phương Đông — Miền Trung & Miền Nam
+            </h1>
+            <p className="text-xs text-slate-500">
+              Cổng tra cứu tài liệu SharePoint và tải công cụ phần mềm phục vụ hiện trường bệnh viện
+            </p>
           </div>
-          <span className="text-[10px] text-slate-400 font-mono">4 Phân Hệ</span>
         </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-          {features.map((feature) => {
-            const Icon = feature.icon;
-            return (
-              <Card 
-                key={feature.title} 
-                className="hover:border-slate-300 transition-all flex flex-col justify-between group"
-              >
-                <CardContent className="p-3.5 sm:p-4 space-y-2.5">
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-2">
-                      <div className={`p-1.5 rounded ${feature.iconBg} ${feature.iconColor}`}>
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <h3 className="text-sm font-bold text-slate-900 group-hover:text-sky-700 transition">
-                        {feature.title}
-                      </h3>
-                    </div>
-                    <Badge 
-                      tone={feature.badge === 'Beta Prototype' ? 'warning' : 'neutral'}
-                      size="sm"
-                      mono
-                    >
-                      {feature.badge}
-                    </Badge>
-                  </div>
-
-                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
-                    {feature.description}
-                  </p>
-
-                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                    <span className="font-mono text-[10px] text-slate-500 font-medium">
-                      {feature.stats}
-                    </span>
-                    <Link
-                      href={feature.href}
-                      className="inline-flex items-center gap-1 text-xs font-semibold text-sky-700 hover:text-sky-800 transition"
-                    >
-                      <span>{feature.cta}</span>
-                      <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                    </Link>
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+        <a
+          href="https://tbytphuongdong.sharepoint.com/Shared%20Documents/Forms/AllItems.aspx?id=%2FShared%20Documents%2FCCC%2FTSC"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 hover:text-red-600 font-medium border border-slate-200 transition shrink-0"
+          title="Mở thư mục gốc trong SharePoint Phương Đông"
+        >
+          <FolderOpen className="w-3.5 h-3.5 text-slate-500" />
+          <span>Kho Gốc SharePoint</span>
+          <ExternalLink className="w-3 h-3 text-slate-400" />
+        </a>
       </div>
 
-      {/* Team Guidelines */}
-      <div className="bg-slate-50 border border-slate-200/90 rounded-lg p-3.5 sm:p-4 text-xs">
-        <div className="flex items-center gap-1.5 font-bold text-slate-800 mb-2 uppercase tracking-wider text-[11px] font-mono">
-          <Terminal className="w-3.5 h-3.5 text-slate-600" />
-          <span>Quy Định Tác Nghiệp Kỹ Thuật Hiện Trường</span>
-        </div>
-        <ul className="text-xs text-slate-600 space-y-1.5 list-disc list-inside leading-relaxed">
-          <li>Cập nhật tình trạng mượn trả trên hệ thống trước khi điều chuyển thiết bị đo kiểm khỏi văn phòng.</li>
-          <li>Đối chiếu mã kiểm tra SHA-256 trước khi nạp phần mềm hoặc file Ghost vào máy tính thiết bị.</li>
-          <li>Tuân thủ nguyên tắc Zero PHI: không lưu trữ thông tin bệnh nhân, mã hồ sơ bệnh án hoặc dữ liệu xét nghiệm.</li>
-        </ul>
+      {/* Lưới 4 Phân Hệ: 2 cột x 2 hàng cân đối, thoáng rộng */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+        {/* Module 1: Tài Liệu Kỹ Thuật (Active) */}
+        <Card className="bg-white border-slate-200 hover:border-red-300 transition-all shadow-xs flex flex-col justify-between group">
+          <CardContent className="p-5 flex flex-col justify-between h-full space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-red-600">
+                  <FileText className="w-5 h-5 text-red-600" />
+                </div>
+                <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                  {docCount} Ngành Hàng
+                </span>
+              </div>
+
+              <div>
+                <h2 className="text-sm font-bold text-slate-900 group-hover:text-red-600 transition">
+                  Tài Liệu Kỹ Thuật
+                </h2>
+                <p className="text-xs text-slate-600 leading-relaxed mt-1">
+                  Cẩm nang bảo trì (Service Manual), đặc tả kết nối LIS ASTM/HL7 và sơ đồ cáp theo từng ngành hàng thiết bị y tế.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 text-[10px] font-mono text-slate-600 pt-1">
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Bio-Rad</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Nihon Kohden</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Baxter</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Kho SharePoint CCC</span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-100">
+              <Link
+                href="/knowledge"
+                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-semibold transition shadow-xs"
+              >
+                <span>Tra Cứu Tài Liệu</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Module 2: Phần Mềm & Công Cụ (Active) */}
+        <Card className="bg-white border-slate-200 hover:border-red-300 transition-all shadow-xs flex flex-col justify-between group">
+          <CardContent className="p-5 flex flex-col justify-between h-full space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-lg bg-red-50 border border-red-200 flex items-center justify-center text-red-600">
+                  <Cpu className="w-5 h-5 text-red-600" />
+                </div>
+                <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-700">
+                  {toolCount} Bộ Cài Sẵn
+                </span>
+              </div>
+
+              <div>
+                <h2 className="text-sm font-bold text-slate-900 group-hover:text-red-600 transition">
+                  Phần Mềm & Công Cụ
+                </h2>
+                <p className="text-xs text-slate-600 leading-relaxed mt-1">
+                  HyperScribe LIS Toolkit v0.4.7 (kèm cổng License Vercel), bộ giả lập LIS Server và các script kiểm tra.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 text-[10px] font-mono text-slate-600 pt-1">
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">HyperScribe LIS</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Cổng Vercel</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">ASTM / HL7</span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-100">
+              <Link
+                href="/tools"
+                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-semibold transition shadow-xs"
+              >
+                <span>Kho Phần Mềm</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Module 3: Đặt Tool (Sắp Ra Mắt) */}
+        <Card className="bg-white border-slate-200 hover:border-slate-300 transition-all shadow-xs flex flex-col justify-between group">
+          <CardContent className="p-5 flex flex-col justify-between h-full space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
+                  <ClipboardCheck className="w-5 h-5 text-amber-600" />
+                </div>
+                <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">
+                  Sắp Ra Mắt
+                </span>
+              </div>
+
+              <div>
+                <h2 className="text-sm font-bold text-slate-900 group-hover:text-amber-700 transition">
+                  Đặt Tool
+                </h2>
+                <p className="text-xs text-slate-600 leading-relaxed mt-1">
+                  Hệ thống số hóa mượn trả dụng cụ & thiết bị đo kiểm dùng chung đang trong kế hoạch chuẩn bị danh mục và quy trình.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 text-[10px] font-mono text-slate-500 pt-1">
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Fluke 179</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Moxa UPort</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Bộ Kìm Bấm</span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-100">
+              <Link
+                href="/booking"
+                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition"
+              >
+                <span>Xem Kế Hoạch Triển Khai</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Module 4: Chat Kỹ Thuật (Sắp Ra Mắt) */}
+        <Card className="bg-white border-slate-200 hover:border-slate-300 transition-all shadow-xs flex flex-col justify-between group">
+          <CardContent className="p-5 flex flex-col justify-between h-full space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
+                  <Bot className="w-5 h-5 text-amber-600" />
+                </div>
+                <span className="text-[11px] font-mono font-semibold px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200">
+                  Sắp Ra Mắt
+                </span>
+              </div>
+
+              <div>
+                <h2 className="text-sm font-bold text-slate-900 group-hover:text-amber-700 transition">
+                  Chat Kỹ Thuật
+                </h2>
+                <p className="text-xs text-slate-600 leading-relaxed mt-1">
+                  Trợ lý AI hỗ trợ tra cứu nhanh mã lỗi máy xét nghiệm, giải mã khung tin ASTM/HL7 và sơ đồ cáp COM.
+                </p>
+              </div>
+
+              <div className="flex flex-wrap gap-1.5 text-[10px] font-mono text-slate-500 pt-1">
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Mã Lỗi Máy</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">ASTM / HL7</span>
+                <span className="px-2 py-0.5 bg-slate-50 border border-slate-200 rounded">Zero PHI</span>
+              </div>
+            </div>
+
+            <div className="pt-3 border-t border-slate-100">
+              <Link
+                href="/chat"
+                className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold transition"
+              >
+                <span>Xem Giới Thiệu Tính Năng</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

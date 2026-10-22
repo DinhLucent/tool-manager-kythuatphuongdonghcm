@@ -26,12 +26,12 @@ interface DocumentCardProps {
 
 const docTypeLabels: Record<DocType, { label: string; tone: BadgeTone }> = {
   service_manual: { label: 'Service Manual', tone: 'info' },
-  interface_spec: { label: 'Interface Spec (ASTM/HL7)', tone: 'success' },
-  troubleshooting_guide: { label: 'Troubleshooting Guide', tone: 'warning' },
+  interface_spec: { label: 'Interface Spec', tone: 'success' },
+  troubleshooting_guide: { label: 'Troubleshooting', tone: 'warning' },
   wiring_diagram: { label: 'Wiring & Schematics', tone: 'danger' },
   user_guide: { label: 'User Guide', tone: 'neutral' },
   checksheet: { label: 'Checksheet / QC', tone: 'info' },
-  procedure_policy: { label: 'Quy Trình Nghiệp Vụ', tone: 'warning' },
+  procedure_policy: { label: 'Quy Trình', tone: 'warning' },
 };
 
 export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: DocumentCardProps) {
@@ -50,41 +50,37 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
   };
 
   return (
-    <Card className="flex flex-col justify-between hover:border-slate-300 transition shadow-sm bg-white">
-      <CardHeader className="space-y-2">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-1">
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <Badge tone={typeMeta.tone}>{typeMeta.label}</Badge>
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 border border-indigo-200">
-                {doc.department}
-              </span>
-              <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-800 border border-slate-200">
-                <Building2 className="w-3 h-3 text-slate-500" />
-                {doc.manufacturer}
-              </span>
-              <span className="text-[11px] font-mono font-medium px-2 py-0.5 rounded bg-sky-50 text-sky-800 border border-sky-100">
-                {doc.deviceModel}
-              </span>
-              {doc.isSampleData && (
-                <Badge tone="neutral" size="sm" className="bg-amber-50 text-amber-800 border-amber-200 text-[10px]">
-                  Sample Data
-                </Badge>
-              )}
-            </div>
-
-            <h3 className="text-base font-bold text-slate-900 leading-snug pt-1">
-              {doc.title}
-            </h3>
-          </div>
+    <Card className="flex flex-col justify-between hover:border-slate-300 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.03)] bg-white">
+      <CardHeader className="space-y-1.5 p-3.5 sm:p-4">
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <Badge tone={typeMeta.tone} size="sm">{typeMeta.label}</Badge>
+          <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-indigo-50 text-indigo-700 border border-indigo-200/80">
+            {doc.department}
+          </span>
+          <span className="inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.2 rounded bg-slate-100 text-slate-700 border border-slate-200/80">
+            <Building2 className="w-2.5 h-2.5 text-slate-400" />
+            {doc.manufacturer}
+          </span>
+          <span className="text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded bg-sky-50 text-sky-800 border border-sky-100">
+            {doc.deviceModel}
+          </span>
+          {doc.isSampleData && (
+            <Badge tone="neutral" size="sm" mono className="text-[9px] px-1 py-0 bg-amber-50 text-amber-800 border-amber-200">
+              Sample Data
+            </Badge>
+          )}
         </div>
 
-        <p className="text-xs text-slate-600 leading-relaxed">
+        <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug pt-0.5">
+          {doc.title}
+        </h3>
+
+        <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
           {doc.summary}
         </p>
 
         {doc.technicalNotes?.baudrate && (
-          <div className="text-[11px] bg-sky-50/70 border border-sky-100 rounded-lg px-2.5 py-1 text-sky-900 flex items-center gap-3 font-mono">
+          <div className="text-[10px] bg-sky-50/70 border border-sky-100 rounded px-2 py-0.5 text-sky-900 flex items-center gap-2.5 font-mono">
             <span>Baud: <strong>{doc.technicalNotes.baudrate}</strong></span>
             {doc.technicalNotes.dataBits && (
               <span>Format: <strong>{doc.technicalNotes.dataBits}-{doc.technicalNotes.parity || 'N'}-{doc.technicalNotes.stopBits || '1'}</strong></span>
@@ -93,11 +89,10 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
         )}
       </CardHeader>
 
-      <CardContent className="space-y-3 pt-2">
-        {/* Keywords */}
+      <CardContent className="space-y-2 px-3.5 py-2 sm:px-4 sm:py-2.5">
         <div>
-          <span className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider block mb-1.5">
-            Indexed Keywords & Protocols
+          <span className="text-[10px] font-mono font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+            Giao thức & Từ khóa
           </span>
           <div className="flex flex-wrap gap-1">
             {doc.keywords.map((kw) => (
@@ -105,7 +100,7 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
                 key={kw}
                 type="button"
                 onClick={() => onKeywordClick?.(kw)}
-                className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded bg-slate-100 hover:bg-sky-50 hover:text-sky-700 text-slate-700 transition"
+                className="inline-flex items-center gap-0.5 text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 hover:bg-sky-50 hover:text-sky-800 text-slate-600 transition border border-slate-200/60 font-mono"
               >
                 <Tag className="w-2.5 h-2.5 text-slate-400" />
                 {kw}
@@ -115,26 +110,26 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
         </div>
       </CardContent>
 
-      <CardFooter className="flex items-center justify-between text-xs pt-3 flex-wrap gap-2 border-t border-slate-100 bg-slate-50/40">
-        <div className="flex items-center gap-2 text-slate-500 text-[11px] flex-wrap">
-          <span className="flex items-center gap-1">
-            <HardDrive className="w-3 h-3" />
+      <CardFooter className="flex items-center justify-between text-xs px-3.5 py-2 sm:px-4 sm:py-2.5 flex-wrap gap-2 border-t border-slate-100 bg-slate-50/50">
+        <div className="flex items-center gap-1.5 text-slate-500 text-[10px] font-mono flex-wrap">
+          <span className="flex items-center gap-0.5">
+            <HardDrive className="w-3 h-3 text-slate-400" />
             {formatFileSize(doc.fileSizeBytes)}
           </span>
           <span>•</span>
-          <span className="flex items-center gap-1">
-            <Globe className="w-3 h-3" />
+          <span className="flex items-center gap-0.5">
+            <Globe className="w-3 h-3 text-slate-400" />
             {doc.language.toUpperCase()}
           </span>
           <span>•</span>
-          <span className="flex items-center gap-1">
-            <Calendar className="w-3 h-3" />
+          <span className="flex items-center gap-0.5">
+            <Calendar className="w-3 h-3 text-slate-400" />
             {doc.uploadedAt}
           </span>
           {doc.maintainer && (
             <>
               <span>•</span>
-              <span className="flex items-center gap-1 text-slate-700 font-medium">
+              <span className="flex items-center gap-0.5 text-slate-700 font-sans font-medium">
                 <UserCheck className="w-3 h-3 text-emerald-600" />
                 {doc.maintainer}
               </span>
@@ -147,10 +142,10 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
             <button
               type="button"
               onClick={() => onViewDetails(doc)}
-              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 font-medium border border-slate-200 transition text-xs shadow-2xs"
+              className="inline-flex items-center gap-1 px-2 py-1 rounded bg-white hover:bg-slate-100 text-slate-700 font-medium border border-slate-200/90 transition text-[11px] shadow-2xs"
               title="Xem thông số kỹ thuật chi tiết"
             >
-              <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500" />
+              <SlidersHorizontal className="w-3 h-3 text-slate-500" />
               <span>Chi tiết</span>
             </button>
           )}
@@ -158,10 +153,10 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
           <button
             type="button"
             onClick={handleCopyLink}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 text-slate-700 font-medium border border-slate-200 transition text-xs shadow-2xs"
+            className="inline-flex items-center gap-1 px-2 py-1 rounded bg-white hover:bg-slate-100 text-slate-700 font-medium border border-slate-200/90 transition text-[11px] shadow-2xs"
             title="Sao chép liên kết SharePoint"
           >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-500" />}
+            {copied ? <Check className="w-3 h-3 text-emerald-600" /> : <Copy className="w-3 h-3 text-slate-500" />}
             <span>{copied ? 'Đã chép' : 'Copy'}</span>
           </button>
 
@@ -169,10 +164,10 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
             href={doc.documentUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white font-medium shadow-sm transition text-xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-sky-700 hover:bg-sky-800 text-white font-medium shadow-2xs transition text-[11px]"
           >
             <span>SharePoint</span>
-            <ExternalLink className="w-3.5 h-3.5" />
+            <ExternalLink className="w-3 h-3" />
           </a>
         </div>
       </CardFooter>

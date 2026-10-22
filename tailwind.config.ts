@@ -9,6 +9,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: '480px',
+      },
+      boxShadow: {
+        '2xs': '0 1px 2px 0 rgba(0, 0, 0, 0.04)',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
       colors: {
         brand: {
           50: '#f0f9ff',

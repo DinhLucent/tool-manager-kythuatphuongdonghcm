@@ -12,16 +12,14 @@ import {
   MapPin, 
   Building2, 
   User, 
-  ArrowRight,
-  ShieldCheck,
-  Check
+  ShieldCheck
 } from 'lucide-react';
 import { EquipmentItem, BookingRecord, CheckoutPayload, EquipmentStatus } from '../types';
 import { INITIAL_EQUIPMENT_DATA, INITIAL_BOOKING_RECORDS } from '../data';
 import { executeCheckout, executeReturn } from '../rules';
 import { CheckoutModal } from './CheckoutModal';
 import { Card, CardContent } from '@/components/Card';
-import { Badge, BadgeTone } from '@/components/Badge';
+import { Badge } from '@/components/Badge';
 import { formatDateTime } from '@/lib/utils';
 
 export function BookingManager() {
@@ -75,7 +73,6 @@ export function BookingManager() {
         payload
       );
 
-      // Reactively update state
       setEquipmentList((prev) =>
         prev.map((e) => (e.id === updatedEquipment.id ? updatedEquipment : e))
       );
@@ -84,11 +81,11 @@ export function BookingManager() {
       setCheckoutModalItem(null);
       setFeedback({
         type: 'success',
-        text: `Checked out "${updatedEquipment.name}" to ${payload.engineerName} for ${payload.siteName}.`,
+        text: `Đã bàn giao "${updatedEquipment.name}" cho ${payload.engineerName} (${payload.siteName}).`,
       });
       setTimeout(() => setFeedback(null), 5000);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to check out equipment';
+      const message = err instanceof Error ? err.message : 'Lỗi khi mượn thiết bị';
       setFeedback({ type: 'error', text: message });
     }
   };
@@ -101,7 +98,7 @@ export function BookingManager() {
     if (!targetBooking) {
       setFeedback({
         type: 'error',
-        text: `No active booking found for equipment ${equipment.assetCode}.`,
+        text: `Không tìm thấy lượt mượn hoạt động của thiết bị ${equipment.assetCode}.`,
       });
       return;
     }
@@ -111,7 +108,7 @@ export function BookingManager() {
         equipment,
         targetBooking,
         undefined,
-        'Returned in good physical & operational condition'
+        'Trả lại văn phòng trong tình trạng hoạt động tốt'
       );
 
       setEquipmentList((prev) =>
@@ -123,11 +120,11 @@ export function BookingManager() {
 
       setFeedback({
         type: 'success',
-        text: `Successfully returned "${updatedEquipment.name}" (${updatedEquipment.assetCode}) to inventory.`,
+        text: `Đã thu hồi "${updatedEquipment.name}" (${updatedEquipment.assetCode}) về văn phòng HCM.`,
       });
       setTimeout(() => setFeedback(null), 5000);
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Failed to return equipment';
+      const message = err instanceof Error ? err.message : 'Lỗi khi thu hồi thiết bị';
       setFeedback({ type: 'error', text: message });
     }
   };
@@ -135,54 +132,54 @@ export function BookingManager() {
   const getStatusBadge = (status: EquipmentStatus) => {
     switch (status) {
       case 'available':
-        return <Badge tone="success">Available</Badge>;
+        return <Badge tone="success" size="sm" mono>Sẵn Sàng</Badge>;
       case 'in_use':
-        return <Badge tone="warning">In Use</Badge>;
+        return <Badge tone="warning" size="sm" mono>Đang Đi Viện</Badge>;
       case 'maintenance':
-        return <Badge tone="danger">Maintenance</Badge>;
+        return <Badge tone="danger" size="sm" mono>Bảo Trì / QC</Badge>;
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200/90 pb-3">
         <div>
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-            <CalendarCheck className="w-6 h-6 text-sky-600" />
-            Field Equipment & Tool Booking
+          <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
+            <CalendarCheck className="w-5 h-5 text-sky-700" />
+            Quản Lý Mượn Trả Thiết Bị & Dụng Cụ Đi Viện
           </h1>
-          <p className="text-sm text-slate-600 mt-1">
-            Custody tracking, checkouts, and returns for shared laboratory testing instruments and converters.
+          <p className="text-xs text-slate-600 mt-0.5">
+            Sổ giao nhận thiết bị dùng chung: bộ đổi cổng Moxa, đồng hồ Fluke, bộ cân chỉnh quang học với cơ chế chống trùng lịch.
           </p>
         </div>
-        <div className="flex items-center gap-2 text-xs text-slate-500 bg-white px-3 py-1.5 rounded-lg border border-slate-200">
-          <ShieldCheck className="w-4 h-4 text-emerald-600" />
-          <span>Double-Booking Prevention Active</span>
+        <div className="flex items-center gap-1.5 text-[11px] text-slate-600 bg-white px-2.5 py-1 rounded border border-slate-200/90 shrink-0 font-mono shadow-2xs">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+          <span>Double-Booking Protection</span>
         </div>
       </div>
 
       {/* Feedback Alert */}
       {feedback && (
         <div
-          className={`p-4 rounded-xl text-xs font-medium flex items-center justify-between transition animate-fade-in ${
+          className={`p-2.5 sm:p-3 rounded-lg text-xs font-medium flex items-center justify-between transition animate-in fade-in duration-100 ${
             feedback.type === 'success'
-              ? 'bg-emerald-50 text-emerald-900 border border-emerald-200'
-              : 'bg-rose-50 text-rose-900 border border-rose-200'
+              ? 'bg-emerald-50 text-emerald-900 border border-emerald-200/80'
+              : 'bg-rose-50 text-rose-900 border border-rose-200/80'
           }`}
         >
           <div className="flex items-center gap-2">
             {feedback.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
             ) : (
-              <AlertTriangle className="w-4 h-4 text-rose-600" />
+              <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0" />
             )}
             <span>{feedback.text}</span>
           </div>
           <button
             type="button"
             onClick={() => setFeedback(null)}
-            className="text-slate-400 hover:text-slate-600 font-bold"
+            className="text-slate-400 hover:text-slate-600 font-bold px-1"
           >
             ×
           </button>
@@ -190,151 +187,151 @@ export function BookingManager() {
       )}
 
       {/* Metrics Row */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <span className="text-xs text-slate-500 font-medium">Total Equipment</span>
-          <div className="text-2xl font-bold text-slate-900 mt-1">{stats.total} items</div>
-          <span className="text-[11px] text-slate-400">HCM Inventory</span>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-2.5">
+        <div className="bg-white p-3 rounded-lg border border-slate-200/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+          <span className="text-[11px] text-slate-500 font-medium block">Tổng thiết bị kho</span>
+          <div className="text-lg font-bold text-slate-900 font-mono mt-0.5">{stats.total}</div>
+          <span className="text-[10px] text-slate-400 font-mono">Kho kỹ thuật HCM</span>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <span className="text-xs text-slate-500 font-medium">Available for Checkout</span>
-          <div className="text-2xl font-bold text-emerald-600 mt-1">{stats.available} items</div>
-          <span className="text-[11px] text-emerald-700">Ready in office</span>
+        <div className="bg-white p-3 rounded-lg border border-slate-200/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+          <span className="text-[11px] text-slate-500 font-medium block">Sẵn sàng xuất viện</span>
+          <div className="text-lg font-bold text-emerald-700 font-mono mt-0.5">{stats.available}</div>
+          <span className="text-[10px] text-emerald-600 font-mono">Trong văn phòng</span>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <span className="text-xs text-slate-500 font-medium">Currently In Field</span>
-          <div className="text-2xl font-bold text-amber-600 mt-1">{stats.inUse} items</div>
-          <span className="text-[11px] text-amber-700">{activeBookings.length} Active Custodies</span>
+        <div className="bg-white p-3 rounded-lg border border-slate-200/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+          <span className="text-[11px] text-slate-500 font-medium block">Đang ở bệnh viện</span>
+          <div className="text-lg font-bold text-amber-700 font-mono mt-0.5">{stats.inUse}</div>
+          <span className="text-[10px] text-amber-600 font-mono">{activeBookings.length} lượt mượn</span>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-          <span className="text-xs text-slate-500 font-medium">Maintenance / Calibration</span>
-          <div className="text-2xl font-bold text-rose-600 mt-1">{stats.maintenance} item</div>
-          <span className="text-[11px] text-rose-700">Under calibration</span>
+        <div className="bg-white p-3 rounded-lg border border-slate-200/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+          <span className="text-[11px] text-slate-500 font-medium block">Đang bảo trì / Kiểm định</span>
+          <div className="text-lg font-bold text-rose-700 font-mono mt-0.5">{stats.maintenance}</div>
+          <span className="text-[10px] text-rose-600 font-mono">Khóa xuất kho</span>
         </div>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-slate-200 flex gap-4 text-sm font-medium">
+      <div className="border-b border-slate-200/90 flex gap-2 text-xs font-medium overflow-x-auto pb-0.5 scrollbar-thin">
         <button
           type="button"
           onClick={() => setActiveTab('inventory')}
-          className={`pb-3 px-1 border-b-2 transition flex items-center gap-2 ${
+          className={`pb-2 px-2 border-b-2 transition flex items-center gap-1.5 whitespace-nowrap ${
             activeTab === 'inventory'
-              ? 'border-sky-600 text-sky-600 font-bold'
+              ? 'border-sky-700 text-sky-800 font-bold'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
-          <Wrench className="w-4 h-4" />
-          <span>Equipment Catalog ({equipmentList.length})</span>
+          <Wrench className="w-3.5 h-3.5" />
+          <span>Danh Mục Thiết Bị ({equipmentList.length})</span>
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('active_checkouts')}
-          className={`pb-3 px-1 border-b-2 transition flex items-center gap-2 ${
+          className={`pb-2 px-2 border-b-2 transition flex items-center gap-1.5 whitespace-nowrap ${
             activeTab === 'active_checkouts'
-              ? 'border-sky-600 text-sky-600 font-bold'
+              ? 'border-sky-700 text-sky-800 font-bold'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
-          <Clock className="w-4 h-4" />
-          <span>Active Checkouts ({activeBookings.length})</span>
+          <Clock className="w-3.5 h-3.5" />
+          <span>Đang Đi Viện ({activeBookings.length})</span>
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('history')}
-          className={`pb-3 px-1 border-b-2 transition flex items-center gap-2 ${
+          className={`pb-2 px-2 border-b-2 transition flex items-center gap-1.5 whitespace-nowrap ${
             activeTab === 'history'
-              ? 'border-sky-600 text-sky-600 font-bold'
+              ? 'border-sky-700 text-sky-800 font-bold'
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
-          <History className="w-4 h-4" />
-          <span>Custody History ({bookings.length})</span>
+          <History className="w-3.5 h-3.5" />
+          <span>Lịch Sử Giao Nhận ({bookings.length})</span>
         </button>
       </div>
 
       {/* Tab 1: Equipment Inventory */}
       {activeTab === 'inventory' && (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {/* Search & Category Filter */}
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-3">
+          <div className="bg-white p-2.5 sm:p-3 rounded-lg border border-slate-200/90 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex flex-col sm:flex-row gap-2">
             <div className="relative flex-1">
-              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search equipment by code (EQ-HCM-001), name, or serial number..."
-                className="w-full pl-9 pr-4 py-2 text-sm bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white text-slate-800"
+                placeholder="Tìm mã thiết bị (EQ-HCM-001), tên máy, số serial hoặc vị trí..."
+                className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 focus:bg-white text-slate-800"
               />
             </div>
 
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="text-xs py-2 px-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 text-slate-800"
+              className="text-xs py-1.5 px-2 bg-slate-50 border border-slate-200 rounded focus:outline-none focus:ring-1 focus:ring-sky-500 text-slate-800"
             >
-              <option value="all">All Categories</option>
-              <option value="interface_converter">Interface Converters</option>
-              <option value="measuring">Measuring Instruments</option>
-              <option value="calibrator">Calibrators</option>
-              <option value="toolkit">Toolkits</option>
+              <option value="all">Tất cả chủng loại</option>
+              <option value="interface_converter">Bộ Chuyển Đổi COM / Moxa</option>
+              <option value="measuring">Thiết Bị Đo Điện Áp / Fluke</option>
+              <option value="calibrator">Bộ Cân Chỉnh Quang Học</option>
+              <option value="toolkit">Bộ Dụng Cụ Cơ Khí</option>
             </select>
           </div>
 
           {/* Equipment Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5">
             {filteredEquipment.map((item) => (
-              <Card key={item.id} className="flex flex-col justify-between hover:border-slate-300 transition shadow-sm">
-                <CardContent className="p-5 space-y-3">
-                  <div className="flex items-start justify-between gap-2">
-                    <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-800 border border-slate-200">
+              <Card key={item.id} className="flex flex-col justify-between hover:border-slate-300 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.03)] bg-white">
+                <CardContent className="p-3.5 sm:p-4 space-y-2">
+                  <div className="flex items-start justify-between gap-1.5">
+                    <span className="font-mono text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-800 border border-slate-200/80">
                       {item.assetCode}
                     </span>
                     {getStatusBadge(item.status)}
                   </div>
 
                   <div>
-                    <h3 className="text-base font-bold text-slate-900 leading-snug">
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900 leading-snug">
                       {item.name}
                     </h3>
-                    <p className="text-xs text-slate-500 font-mono mt-0.5">
+                    <p className="text-[10px] text-slate-500 font-mono mt-0.5">
                       S/N: {item.serialNumber}
                     </p>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-3">
+                  <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
                     {item.description}
                   </p>
 
-                  <div className="pt-2 border-t border-slate-100 space-y-1.5 text-xs text-slate-600">
-                    <div className="flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                  <div className="pt-2 border-t border-slate-100 space-y-1 text-xs text-slate-600">
+                    <div className="flex items-center gap-1.5 text-[11px]">
+                      <MapPin className="w-3 h-3 text-slate-400 shrink-0" />
                       <span className="truncate">{item.location}</span>
                     </div>
 
                     {item.status === 'in_use' && item.currentBorrowerName && (
-                      <div className="flex items-center gap-1.5 text-amber-800 font-medium bg-amber-50 px-2 py-1 rounded">
-                        <User className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                        <span>Held by: {item.currentBorrowerName}</span>
+                      <div className="flex items-center gap-1 text-amber-900 font-medium bg-amber-50 px-2 py-0.5 rounded text-[11px] border border-amber-200/60">
+                        <User className="w-3 h-3 text-amber-600 shrink-0" />
+                        <span className="truncate">Kỹ sư mượn: {item.currentBorrowerName}</span>
                       </div>
                     )}
                   </div>
                 </CardContent>
 
-                <div className="p-4 bg-slate-50/70 border-t border-slate-100 flex items-center justify-end">
+                <div className="px-3.5 py-2 bg-slate-50/60 border-t border-slate-100 flex items-center justify-end">
                   {item.status === 'available' && (
                     <button
                       type="button"
                       onClick={() => setCheckoutModalItem(item)}
-                      className="px-3.5 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold shadow-sm transition"
+                      className="px-2.5 py-1 rounded bg-sky-700 hover:bg-sky-800 text-white text-[11px] font-semibold shadow-2xs transition"
                     >
-                      Check Out
+                      Mượn Thiết Bị
                     </button>
                   )}
 
@@ -342,15 +339,15 @@ export function BookingManager() {
                     <button
                       type="button"
                       onClick={() => handleReturnItem(item)}
-                      className="px-3.5 py-1.5 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-sm transition"
+                      className="px-2.5 py-1 rounded bg-amber-700 hover:bg-amber-800 text-white text-[11px] font-semibold shadow-2xs transition"
                     >
-                      Check In / Return
+                      Bàn Giao / Trả
                     </button>
                   )}
 
                   {item.status === 'maintenance' && (
-                    <span className="text-xs text-slate-400 font-medium italic">
-                      Locked for calibration
+                    <span className="text-[11px] text-slate-400 font-medium italic">
+                      Đang hiệu chuẩn
                     </span>
                   )}
                 </div>
@@ -362,25 +359,25 @@ export function BookingManager() {
 
       {/* Tab 2: Active Checkouts */}
       {activeTab === 'active_checkouts' && (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {activeBookings.length === 0 ? (
-            <div className="text-center py-12 bg-white rounded-xl border border-slate-200 space-y-2">
-              <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
-              <h3 className="text-base font-semibold text-slate-800">No equipment currently checked out</h3>
-              <p className="text-xs text-slate-500">All tools and instruments are available in the office inventory.</p>
+            <div className="text-center py-10 bg-white rounded-lg border border-slate-200/90 space-y-1.5 p-4">
+              <CheckCircle2 className="w-6 h-6 text-emerald-600 mx-auto" />
+              <h3 className="text-sm font-semibold text-slate-800">Không có thiết bị nào đang đi viện</h3>
+              <p className="text-xs text-slate-500">Tất cả dụng cụ và máy đo hiện đang sẵn sàng trong kho văn phòng HCM.</p>
             </div>
           ) : (
-            <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+            <div className="bg-white rounded-lg border border-slate-200/90 overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
+                  <thead className="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200 text-[10px] font-mono">
                     <tr>
-                      <th className="px-4 py-3">Equipment</th>
-                      <th className="px-4 py-3">Engineer</th>
-                      <th className="px-4 py-3">Hospital / Site</th>
-                      <th className="px-4 py-3">Checkout Date</th>
-                      <th className="px-4 py-3">Due Date</th>
-                      <th className="px-4 py-3 text-right">Action</th>
+                      <th className="px-3 py-2">Thiết Bị</th>
+                      <th className="px-3 py-2">Kỹ Sư</th>
+                      <th className="px-3 py-2">Bệnh Viện / Mục Đích</th>
+                      <th className="px-3 py-2">Ngày Mượn</th>
+                      <th className="px-3 py-2">Hạn Dự Kiến</th>
+                      <th className="px-3 py-2 text-right">Thao Tác</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 text-slate-700">
@@ -388,34 +385,34 @@ export function BookingManager() {
                       const item = equipmentList.find((e) => e.id === b.equipmentId);
                       return (
                         <tr key={b.id} className="hover:bg-slate-50/70 transition">
-                          <td className="px-4 py-3 font-medium text-slate-900">
+                          <td className="px-3 py-2 font-medium text-slate-900">
                             <div>{b.equipmentName}</div>
                             <span className="font-mono text-[10px] text-slate-500">{b.assetCode}</span>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-3 py-2">
                             <span className="font-medium text-slate-800">{b.engineerName}</span>
                           </td>
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-1">
-                              <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <td className="px-3 py-2">
+                            <div className="flex items-center gap-1 font-medium text-slate-800">
+                              <Building2 className="w-3 h-3 text-slate-400 shrink-0" />
                               <span>{b.siteName}</span>
                             </div>
-                            <span className="text-[11px] text-slate-500 truncate block max-w-xs">{b.purpose}</span>
+                            <span className="text-[10px] text-slate-500 truncate block max-w-xs">{b.purpose}</span>
                           </td>
-                          <td className="px-4 py-3 text-slate-600">
+                          <td className="px-3 py-2 text-slate-600 font-mono text-[11px]">
                             {formatDateTime(b.checkoutDate)}
                           </td>
-                          <td className="px-4 py-3 font-medium text-amber-700">
+                          <td className="px-3 py-2 font-medium text-amber-800 font-mono text-[11px]">
                             {formatDateTime(b.expectedReturnDate)}
                           </td>
-                          <td className="px-4 py-3 text-right">
+                          <td className="px-3 py-2 text-right">
                             {item && (
                               <button
                                 type="button"
                                 onClick={() => handleReturnItem(item)}
-                                className="px-3 py-1 rounded-md bg-amber-600 hover:bg-amber-700 text-white font-medium text-xs transition"
+                                className="px-2.5 py-1 rounded bg-amber-700 hover:bg-amber-800 text-white font-medium text-[11px] transition shadow-2xs"
                               >
-                                Return
+                                Thu Hồi
                               </button>
                             )}
                           </td>
@@ -432,46 +429,46 @@ export function BookingManager() {
 
       {/* Tab 3: Custody History */}
       {activeTab === 'history' && (
-        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+        <div className="bg-white rounded-lg border border-slate-200/90 overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200">
+              <thead className="bg-slate-50 text-slate-600 uppercase font-semibold border-b border-slate-200 text-[10px] font-mono">
                 <tr>
-                  <th className="px-4 py-3">Equipment</th>
-                  <th className="px-4 py-3">Responsible Engineer</th>
-                  <th className="px-4 py-3">Site / Purpose</th>
-                  <th className="px-4 py-3">Checkout</th>
-                  <th className="px-4 py-3">Returned</th>
-                  <th className="px-4 py-3">Status</th>
-                  <th className="px-4 py-3">Notes</th>
+                  <th className="px-3 py-2">Thiết Bị</th>
+                  <th className="px-3 py-2">Kỹ Sư</th>
+                  <th className="px-3 py-2">Điểm Triển Khai</th>
+                  <th className="px-3 py-2">Ngày Mượn</th>
+                  <th className="px-3 py-2">Ngày Trả</th>
+                  <th className="px-3 py-2">Trạng Thái</th>
+                  <th className="px-3 py-2">Ghi Chú</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 text-slate-700">
                 {bookings.map((b) => (
                   <tr key={b.id} className="hover:bg-slate-50/70 transition">
-                    <td className="px-4 py-3 font-medium text-slate-900">
+                    <td className="px-3 py-2 font-medium text-slate-900">
                       <div>{b.equipmentName}</div>
                       <span className="font-mono text-[10px] text-slate-500">{b.assetCode}</span>
                     </td>
-                    <td className="px-4 py-3 font-medium text-slate-800">
+                    <td className="px-3 py-2 font-medium text-slate-800">
                       {b.engineerName}
                     </td>
-                    <td className="px-4 py-3">
+                    <td className="px-3 py-2">
                       <div className="font-medium text-slate-800">{b.siteName}</div>
-                      <div className="text-[11px] text-slate-500 max-w-xs">{b.purpose}</div>
+                      <div className="text-[10px] text-slate-500 max-w-xs">{b.purpose}</div>
                     </td>
-                    <td className="px-4 py-3 text-slate-600">
+                    <td className="px-3 py-2 text-slate-600 font-mono text-[11px]">
                       {formatDateTime(b.checkoutDate)}
                     </td>
-                    <td className="px-4 py-3 text-slate-600">
+                    <td className="px-3 py-2 text-slate-600 font-mono text-[11px]">
                       {b.actualReturnDate ? formatDateTime(b.actualReturnDate) : '—'}
                     </td>
-                    <td className="px-4 py-3">
-                      <Badge tone={b.status === 'active' ? 'warning' : 'success'}>
-                        {b.status === 'active' ? 'Active' : 'Returned'}
+                    <td className="px-3 py-2">
+                      <Badge tone={b.status === 'active' ? 'warning' : 'success'} size="sm" mono>
+                        {b.status === 'active' ? 'Đang Mượn' : 'Đã Trả'}
                       </Badge>
                     </td>
-                    <td className="px-4 py-3 text-slate-500 text-[11px] max-w-xs">
+                    <td className="px-3 py-2 text-slate-500 text-[11px] max-w-xs">
                       {b.notes || '—'}
                     </td>
                   </tr>

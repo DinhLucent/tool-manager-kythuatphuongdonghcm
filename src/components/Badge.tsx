@@ -8,22 +8,24 @@ interface BadgeProps {
   tone?: BadgeTone;
   className?: string;
   size?: 'sm' | 'md';
+  mono?: boolean;
 }
 
 const toneStyles: Record<BadgeTone, string> = {
   neutral: 'bg-slate-100 text-slate-700 border-slate-200',
-  info: 'bg-sky-50 text-sky-700 border-sky-200',
-  success: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  warning: 'bg-amber-50 text-amber-700 border-amber-200',
-  danger: 'bg-rose-50 text-rose-700 border-rose-200',
+  info: 'bg-sky-50 text-sky-700 border-sky-200/90',
+  success: 'bg-emerald-50 text-emerald-700 border-emerald-200/90',
+  warning: 'bg-amber-50 text-amber-800 border-amber-200/90',
+  danger: 'bg-rose-50 text-rose-700 border-rose-200/90',
 };
 
-export function Badge({ children, tone = 'neutral', size = 'sm', className }: BadgeProps) {
+export function Badge({ children, tone = 'neutral', size = 'sm', mono = false, className }: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center font-medium border rounded-md',
-        size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-2.5 py-1 text-sm',
+        'inline-flex items-center font-medium border rounded select-none tracking-tight',
+        mono ? 'font-mono' : 'font-sans',
+        size === 'sm' ? 'px-1.5 py-0.5 text-[10px] leading-tight' : 'px-2 py-0.5 text-[11px] leading-tight',
         toneStyles[tone],
         className
       )}
@@ -32,3 +34,4 @@ export function Badge({ children, tone = 'neutral', size = 'sm', className }: Ba
     </span>
   );
 }
+

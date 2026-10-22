@@ -1,24 +1,27 @@
 import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheck, HardDrive } from 'lucide-react';
 
 export function Footer() {
   return (
-    <footer className="bg-white border-t border-slate-200 mt-auto py-6">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-          <div className="flex items-center gap-2">
-            <span className="font-semibold text-slate-700">HCM Engineering Portal</span>
-            <span>•</span>
-            <span>Phuong Dong Medical Equipment Co., Ltd.</span>
+    <footer className="bg-white border-t border-slate-200/90 mt-auto py-3.5">
+      <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-6">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 text-[11px] text-slate-500">
+          <div className="flex items-center gap-1.5 flex-wrap justify-center sm:justify-start">
+            <span className="font-semibold text-slate-800">HCM Engineering Portal</span>
+            <span className="text-slate-300">•</span>
+            <span>Phương Đông Medical</span>
+            <span className="text-slate-300 hidden md:inline">•</span>
+            <span className="text-slate-400 font-mono hidden md:inline">SharePoint TSC Sync</span>
           </div>
 
-          <div className="flex items-center gap-1.5 text-slate-500">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <div className="flex items-center gap-1.5 text-slate-500 text-center">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
             <span>Zero PHI / HIPAA Compliance: Strictly technical & logistics assets</span>
           </div>
 
-          <div>
-            <span>Version 1.0.0-starter • 14 Engineers</span>
+          <div className="flex items-center gap-1.5 font-mono text-[10px] text-slate-400">
+            <HardDrive className="w-3 h-3 text-slate-400" />
+            <span>v1.2.0 • 14 Engineers</span>
           </div>
         </div>
       </div>

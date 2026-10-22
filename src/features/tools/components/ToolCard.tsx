@@ -12,7 +12,7 @@ import {
   Disc3, 
   ExternalLink, 
   Clock, 
-  Sparkles 
+  CheckCircle2 
 } from 'lucide-react';
 import { ToolRelease, ToolCategory } from '../types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/Card';
@@ -61,7 +61,7 @@ export function ToolCard({ tool }: ToolCardProps) {
           </span>
           {tool.storageLocation === 'local' && (
             <span className="inline-flex items-center gap-0.5 text-[9px] font-mono font-bold px-1 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200/80">
-              <Sparkles className="w-2.5 h-2.5 text-emerald-600" />
+              <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
               Offline
             </span>
           )}
@@ -92,7 +92,7 @@ export function ToolCard({ tool }: ToolCardProps) {
           <div className="bg-rose-50/70 border border-rose-200/70 rounded p-2 text-[11px] text-rose-900 flex items-start gap-1.5">
             <Disc3 className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold">Đặc tả Ghost: </span>
+              <span className="font-semibold">Đặc tả Ghost: </span>
               <span>{tool.ghostNote}</span>
             </div>
           </div>
@@ -172,7 +172,7 @@ export function ToolCard({ tool }: ToolCardProps) {
       <CardFooter className="flex items-center justify-between text-xs px-3.5 py-2 sm:px-4 sm:py-2.5 border-t border-slate-100 bg-slate-50/50">
         <div className="text-slate-500 text-[10px] font-mono">
           {tool.fileSizeBytes && tool.fileSizeBytes > 0 ? (
-            <span><strong>{formatFileSize(tool.fileSizeBytes)}</strong></span>
+            <span><span className="font-semibold">{formatFileSize(tool.fileSizeBytes)}</span></span>
           ) : (
             <span className="text-slate-400">Chờ nạp file</span>
           )}

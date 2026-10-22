@@ -2,14 +2,13 @@
 
 import React, { useState } from 'react';
 import { 
-  MessageSquareCode, 
+  Terminal, 
   Send, 
-  Sparkles, 
+  SearchCode, 
   AlertCircle, 
   ShieldAlert, 
-  Bot, 
+  Cpu, 
   User, 
-  Terminal, 
   Clock 
 } from 'lucide-react';
 import { ChatMessage } from '../types';
@@ -24,7 +23,7 @@ export function ChatPlaceholder() {
     {
       id: 'msg-0',
       role: 'system',
-      content: 'Chào kỹ sư! Đây là giao diện Prototype của Trợ lý Kỹ thuật (Technical Assistant Beta). Bạn có thể chọn các câu hỏi mẫu bên dưới hoặc nhập câu hỏi kỹ thuật về giao thức ASTM, mã lỗi máy xét nghiệm và sơ đồ cổng COM.',
+      content: 'Trợ lý kỹ thuật hiện trường (chế độ tra cứu nội bộ). Chọn câu hỏi mẫu hoặc nhập model máy xét nghiệm để tra cứu sơ đồ cổng COM, đặc tả bản tin ASTM và hướng dẫn xử lý sự cố kết nối.',
       timestamp: new Date().toISOString(),
       isPrototypeResponse: true,
     },
@@ -52,12 +51,11 @@ export function ChatPlaceholder() {
       if (matchedTemplate && MOCK_KNOWLEDGE_REPLIES[matchedTemplate.id]) {
         replyContent = MOCK_KNOWLEDGE_REPLIES[matchedTemplate.id];
       } else {
-        replyContent = `ℹ️ [BETA PROTOTYPE RESPONSE]:
-Hệ thống AI Backend chuyên dụng (fine-tuned LLM cho cẩm nang thiết bị y tế Roche, Sysmex, Mindray) hiện đang được đóng gói trong mạng nội bộ.
-Trong phiên bản MVP này, AI backend chưa được kích hoạt trực tiếp nhằm bảo vệ tài nguyên máy chủ.
+        replyContent = `[Ghi nhận yêu cầu tra cứu]:
+Hệ thống AI Gateway nội bộ đang trong giai đoạn hoàn thiện kết nối.
+Nội dung yêu cầu: "${query}".
 
-Câu hỏi của bạn: "${query}"
-Vui lòng tham khảo tài liệu kỹ thuật tại tab Tài Liệu TSC (/knowledge) hoặc tra cứu sơ đồ chân cáp chuẩn.`;
+Vui lòng tham khảo cẩm nang chi tiết tại tab Tài Liệu TSC (/knowledge) hoặc đối chiếu sơ đồ chân cáp chuẩn RS-232 tại hiện trường.`;
       }
 
       const assistantMessage: ChatMessage = {
@@ -69,7 +67,7 @@ Vui lòng tham khảo tài liệu kỹ thuật tại tab Tài Liệu TSC (/knowl
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
-    }, 500);
+    }, 400);
   };
 
   return (
@@ -78,30 +76,30 @@ Vui lòng tham khảo tài liệu kỹ thuật tại tab Tài Liệu TSC (/knowl
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200/90 pb-3">
         <div>
           <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <MessageSquareCode className="w-5 h-5 text-amber-700" />
+            <Terminal className="w-5 h-5 text-amber-700" />
             Trợ Lý Kỹ Thuật Hiện Trường
             <Badge tone="warning" size="sm" mono>Beta Prototype</Badge>
           </h1>
           <p className="text-xs text-slate-600 mt-0.5">
-            Trợ lý chẩn đoán giao thức truyền thông ASTM/HL7, tra cứu mã lỗi và gợi ý pinout cáp RS-232 máy xét nghiệm.
+            Tra cứu thông số cổng nối tiếp RS-232, mã lỗi thiết bị và định dạng bản tin ASTM/HL7.
           </p>
         </div>
         <div className="flex items-center gap-1.5 text-[11px] text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200/90 shrink-0 font-mono shadow-2xs">
           <Clock className="w-3.5 h-3.5 text-amber-600" />
-          <span>AI Backend Phase 2</span>
+          <span>AI Gateway Chờ Kích Hoạt</span>
         </div>
       </div>
 
-      {/* Architecture Disclaimer & Prototype Banner */}
+      {/* Offline Mode & Safety Notice */}
       <div className="bg-slate-50 border border-slate-200/90 rounded-lg p-3 space-y-2 text-xs">
         <div className="flex items-start gap-2">
           <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
           <div className="space-y-0.5 text-slate-700">
-            <h3 className="font-bold text-slate-900 text-xs">
-              Trạng thái tính năng: Giao diện Prototype (AI Backend chưa kích hoạt)
+            <h3 className="font-semibold text-slate-900 text-xs">
+              Chế độ chẩn đoán offline (AI Gateway đang cấu hình)
             </h3>
             <p className="text-[11px] leading-relaxed text-slate-600">
-              Theo quy hoạch kiến trúc, portal đóng vai trò là một <strong>API Gateway / Proxy</strong> mỏng để không gây tải cho máy chủ. AI backend nội bộ sẽ kết nối ở giai đoạn sau với rate-limiting an toàn.
+              Hệ thống cung cấp sẵn các mẫu hướng dẫn xử lý sự cố truyền thông và cấu hình cổng nối tiếp thường gặp khi làm việc tại bệnh viện.
             </p>
           </div>
         </div>
@@ -109,7 +107,7 @@ Vui lòng tham khảo tài liệu kỹ thuật tại tab Tài Liệu TSC (/knowl
         {/* Zero PHI Reminder */}
         <div className="flex items-center gap-1.5 text-[10px] font-semibold text-rose-800 bg-rose-50 px-2 py-1 rounded border border-rose-200/70">
           <ShieldAlert className="w-3.5 h-3.5 text-rose-600 shrink-0" />
-          <span>Cảnh báo an toàn: Tuyệt đối không nhập thông tin bệnh nhân (PHI), barcode bệnh án, hoặc kết quả lâm sàng.</span>
+          <span>Cảnh báo an toàn: Tuyệt đối không nhập thông tin bệnh nhân, số hồ sơ bệnh án hoặc dữ liệu xét nghiệm.</span>
         </div>
       </div>
 
@@ -135,7 +133,7 @@ Vui lòng tham khảo tài liệu kỹ thuật tại tab Tài Liệu TSC (/knowl
                       : 'bg-amber-700'
                   }`}
                 >
-                  {m.role === 'user' ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
+                  {m.role === 'user' ? <User className="w-3.5 h-3.5" /> : <Cpu className="w-3.5 h-3.5" />}
                 </div>
 
                 <div
@@ -146,8 +144,8 @@ Vui lòng tham khảo tài liệu kỹ thuật tại tab Tài Liệu TSC (/knowl
                   }`}
                 >
                   {m.isPrototypeResponse && (
-                    <span className="text-[9px] font-mono uppercase font-bold text-amber-700 block mb-0.5">
-                      [Prototype Simulation]
+                    <span className="text-[9px] font-mono uppercase font-semibold text-amber-700 block mb-0.5">
+                      [Phản Hồi Mẫu]
                     </span>
                   )}
                   <p className="whitespace-pre-line font-sans text-xs">{m.content}</p>
@@ -190,12 +188,12 @@ Vui lòng tham khảo tài liệu kỹ thuật tại tab Tài Liệu TSC (/knowl
         <div className="space-y-3">
           <Card className="bg-white">
             <CardContent className="p-3 space-y-2">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-amber-700" />
-                <span>Câu Hỏi & Chẩn Đoán Mẫu</span>
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-900 uppercase tracking-wider font-mono">
+                <SearchCode className="w-3.5 h-3.5 text-slate-600" />
+                <span>Mẫu Tra Cứu Sự Cố</span>
               </div>
               <p className="text-[11px] text-slate-500">
-                Nhấp vào câu hỏi mẫu bên dưới để xem hướng dẫn xử lý kỹ thuật offline:
+                Chọn tình huống cần hỗ trợ để xem quy trình xử lý kỹ thuật:
               </p>
 
               <div className="space-y-1.5 pt-0.5">
@@ -225,14 +223,14 @@ Vui lòng tham khảo tài liệu kỹ thuật tại tab Tài Liệu TSC (/knowl
 
           {/* Technical Scope Card */}
           <div className="bg-slate-50 p-3 rounded-lg border border-slate-200/90 text-xs text-slate-600 space-y-1.5">
-            <span className="font-bold text-slate-800 flex items-center gap-1 text-[11px] font-mono uppercase">
+            <span className="font-semibold text-slate-800 flex items-center gap-1 text-[11px] font-mono uppercase">
               <Terminal className="w-3 h-3 text-slate-500" />
-              Kế Hoạch AI Gateway:
+              Thông số kỹ thuật Gateway:
             </span>
             <ul className="list-disc list-inside space-y-0.5 text-slate-600 text-[11px]">
-              <li>Edge Function proxy ẩn giấu private token.</li>
-              <li>Chỉ tài khoản Google Workspace <code className="bg-slate-200 px-1 py-0.2 rounded font-mono text-[10px]">@phuongdong.com.vn</code>.</li>
-              <li>Rate limit 30 câu hỏi/phút tránh nghẽn server.</li>
+              <li>Định tuyến qua Edge Function proxy nội bộ.</li>
+              <li>Xác thực tài khoản Google Workspace Phương Đông.</li>
+              <li>Giới hạn 30 truy vấn/phút để ổn định tài nguyên mạng.</li>
             </ul>
           </div>
         </div>

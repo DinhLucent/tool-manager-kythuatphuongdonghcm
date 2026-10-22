@@ -7,7 +7,7 @@ import {
   Copy, 
   Check, 
   Building2, 
-  Tag, 
+  Hash, 
   Wrench, 
   AlertTriangle, 
   Network, 
@@ -158,7 +158,7 @@ export function DocumentDetailModal({ document: doc, onClose }: DocumentDetailMo
               {/* Warnings */}
               {doc.technicalNotes.importantWarnings && doc.technicalNotes.importantWarnings.length > 0 && (
                 <div className="bg-amber-50 border border-amber-200 rounded p-2.5 text-[11px] text-amber-900 space-y-1">
-                  <div className="font-bold flex items-center gap-1.5 text-amber-800">
+                  <div className="font-semibold flex items-center gap-1.5 text-amber-800">
                     <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                     Lưu Ý Kỹ Thuật Quan Trọng:
                   </div>
@@ -201,7 +201,7 @@ export function DocumentDetailModal({ document: doc, onClose }: DocumentDetailMo
                   key={kw}
                   className="inline-flex items-center gap-0.5 text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 text-slate-700 font-mono"
                 >
-                  <Tag className="w-2.5 h-2.5 text-slate-400" />
+                  <Hash className="w-2.5 h-2.5 text-slate-400" />
                   {kw}
                 </span>
               ))}
@@ -211,7 +211,7 @@ export function DocumentDetailModal({ document: doc, onClose }: DocumentDetailMo
           {/* File location on SharePoint */}
           {doc.sharepointRelativePath && (
             <div className="bg-slate-50 p-2 rounded border border-slate-200/80 text-[10px] text-slate-600 space-y-0.5 font-mono">
-              <span className="font-sans font-bold text-slate-500 block text-[10px]">Đường dẫn SharePoint nội bộ:</span>
+              <span className="font-sans font-semibold text-slate-500 block text-[10px]">Đường dẫn SharePoint nội bộ:</span>
               <span className="text-slate-800 break-all select-all">{doc.sharepointRelativePath}</span>
             </div>
           )}

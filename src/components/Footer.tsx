@@ -1,5 +1,6 @@
 import React from 'react';
 import { ShieldCheck, HardDrive } from 'lucide-react';
+import { TechnicalLogo } from '@/components/TechnicalLogo';
 
 export function Footer() {
   return (
@@ -7,6 +8,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-3 sm:px-5 lg:px-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5 text-[11px] text-slate-500">
           <div className="flex items-center gap-1.5 flex-wrap justify-center sm:justify-start">
+            <TechnicalLogo className="w-3.5 h-3.5 text-sky-700" />
             <span className="font-semibold text-slate-800">HCM Engineering Portal</span>
             <span className="text-slate-300">•</span>
             <span>Phương Đông Medical</span>

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { 
   ExternalLink, 
-  Tag, 
+  Hash, 
   Building2, 
   Calendar, 
   HardDrive, 
@@ -81,9 +81,9 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
 
         {doc.technicalNotes?.baudrate && (
           <div className="text-[10px] bg-sky-50/70 border border-sky-100 rounded px-2 py-0.5 text-sky-900 flex items-center gap-2.5 font-mono">
-            <span>Baud: <strong>{doc.technicalNotes.baudrate}</strong></span>
+            <span>Baud: <span className="font-semibold">{doc.technicalNotes.baudrate}</span></span>
             {doc.technicalNotes.dataBits && (
-              <span>Format: <strong>{doc.technicalNotes.dataBits}-{doc.technicalNotes.parity || 'N'}-{doc.technicalNotes.stopBits || '1'}</strong></span>
+              <span>Format: <span className="font-semibold">{doc.technicalNotes.dataBits}-{doc.technicalNotes.parity || 'N'}-{doc.technicalNotes.stopBits || '1'}</span></span>
             )}
           </div>
         )}
@@ -102,7 +102,7 @@ export function DocumentCard({ document: doc, onKeywordClick, onViewDetails }: D
                 onClick={() => onKeywordClick?.(kw)}
                 className="inline-flex items-center gap-0.5 text-[10px] font-medium px-1.5 py-0.5 rounded bg-slate-100 hover:bg-sky-50 hover:text-sky-800 text-slate-600 transition border border-slate-200/60 font-mono"
               >
-                <Tag className="w-2.5 h-2.5 text-slate-400" />
+                <Hash className="w-2.5 h-2.5 text-slate-400" />
                 {kw}
               </button>
             ))}

@@ -3,13 +3,13 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Search, 
-  BookOpen, 
+  FileText, 
   Filter, 
   CheckCircle2, 
   Info, 
   X, 
   Building,
-  Sparkles,
+  Terminal,
   ExternalLink
 } from 'lucide-react';
 import { SAMPLE_DOCUMENTS_DATA } from '../data';
@@ -132,7 +132,7 @@ export function KnowledgeCatalogue() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200/90 pb-3">
         <div>
           <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-sky-700" />
+            <FileText className="w-5 h-5 text-sky-700" />
             Tài Liệu Kỹ Thuật & Giao Thức LIS (TSC)
           </h1>
           <p className="text-xs text-slate-600 mt-0.5">
@@ -150,7 +150,7 @@ export function KnowledgeCatalogue() {
         <div className="flex items-start sm:items-center gap-2">
           <Info className="w-4 h-4 text-sky-700 shrink-0 mt-0.5 sm:mt-0" />
           <p className="text-[11px] sm:text-xs text-sky-900 leading-relaxed">
-            <strong>Kho SharePoint TSC:</strong> Đăng nhập bằng tài khoản Microsoft 365 Phương Đông (<code className="bg-sky-100/80 px-1 py-0.2 rounded font-mono text-[10px]">@phuongdong.com.vn</code>) để mở toàn văn.
+            Kho tài liệu SharePoint TSC yêu cầu đăng nhập tài khoản Microsoft 365 Phương Đông (<code className="bg-sky-100/80 px-1 py-0.2 rounded font-mono text-[10px]">@phuongdong.com.vn</code>) để mở toàn văn.
           </p>
         </div>
         <a 
@@ -164,10 +164,10 @@ export function KnowledgeCatalogue() {
         </a>
       </div>
 
-      {/* Department Quick Chips */}
+      {/* Department Chips */}
       <div className="space-y-1.5">
         <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold uppercase tracking-wider font-mono">
-          <span>Chọn Ngành Hàng (Product Lines):</span>
+          <span>Ngành Hàng:</span>
           {selectedDepartment !== 'all' && (
             <button
               type="button"
@@ -266,11 +266,11 @@ export function KnowledgeCatalogue() {
           </div>
         </div>
 
-        {/* Quick Protocol Suggestion Tags */}
+        {/* Quick Protocol Tags */}
         <div className="flex items-center gap-1 flex-wrap pt-0.5 text-xs text-slate-500">
           <span className="flex items-center gap-1 font-semibold text-slate-600 text-[10px] font-mono">
-            <Sparkles className="w-3 h-3 text-amber-600" />
-            Giao thức nhanh:
+            <Terminal className="w-3 h-3 text-slate-500" />
+            Giao thức thường dùng:
           </span>
           {quickProtocols.map((proto) => (
             <button
@@ -324,7 +324,7 @@ export function KnowledgeCatalogue() {
 
         {filteredDocuments.length === 0 ? (
           <div className="text-center py-10 bg-white rounded-lg border border-slate-200/90 space-y-2 p-4">
-            <BookOpen className="w-6 h-6 text-slate-400 mx-auto" />
+            <FileText className="w-6 h-6 text-slate-400 mx-auto" />
             <h3 className="text-sm font-semibold text-slate-800">Không tìm thấy tài liệu phù hợp</h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto">
               Không có tài liệu nào khớp với từ khóa hoặc bộ lọc hiện tại. Thử xóa từ khóa tìm kiếm hoặc chọn &quot;Tất cả Ngành Hàng&quot;.

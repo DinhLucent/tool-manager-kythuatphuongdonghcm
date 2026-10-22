@@ -4,23 +4,23 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { 
-  BookOpen, 
-  Wrench, 
-  CalendarCheck, 
-  MessageSquareCode, 
+  FileText, 
+  Cpu, 
+  ClipboardCheck, 
+  Terminal, 
   Menu, 
   X,
-  Stethoscope,
-  LayoutDashboard
+  Gauge
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/Badge';
+import { TechnicalLogo } from '@/components/TechnicalLogo';
 
 const navItems = [
-  { href: '/knowledge', label: 'Tài Liệu TSC', icon: BookOpen },
-  { href: '/tools', label: 'Phần Mềm & Ghost', icon: Wrench },
-  { href: '/booking', label: 'Thiết Bị Đi Viện', icon: CalendarCheck },
-  { href: '/chat', label: 'Technical Chat', icon: MessageSquareCode, badge: 'Beta' },
+  { href: '/knowledge', label: 'Tài Liệu TSC', icon: FileText },
+  { href: '/tools', label: 'Phần Mềm & Ghost', icon: Cpu },
+  { href: '/booking', label: 'Thiết Bị Đi Viện', icon: ClipboardCheck },
+  { href: '/chat', label: 'Technical Chat', icon: Terminal, badge: 'Beta' },
 ];
 
 export function Navbar() {
@@ -35,7 +35,7 @@ export function Navbar() {
           <div className="flex items-center gap-2.5">
             <Link href="/" className="flex items-center gap-2 group">
               <div className="w-7 h-7 rounded bg-sky-700 text-white flex items-center justify-center border border-sky-800/40 shadow-2xs group-hover:bg-sky-800 transition">
-                <Stethoscope className="w-4 h-4" />
+                <TechnicalLogo className="w-4 h-4" />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-slate-900 text-xs sm:text-sm tracking-tight flex items-center gap-1.5">
@@ -62,7 +62,7 @@ export function Navbar() {
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               )}
             >
-              <LayoutDashboard className="w-3.5 h-3.5 text-slate-500" />
+              <Gauge className="w-3.5 h-3.5 text-slate-500" />
               <span>Tổng Quan</span>
             </Link>
             {navItems.map((item) => {
@@ -91,7 +91,7 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* User profile & Mobile Menu Button */}
+          {/* Team Indicator & Mobile Menu Toggle */}
           <div className="flex items-center gap-2">
             <div className="hidden sm:flex items-center gap-2 pl-2.5 border-l border-slate-200 text-xs">
               <span className="relative flex h-2 w-2">
@@ -108,7 +108,7 @@ export function Navbar() {
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-1.5 rounded text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition border border-transparent focus:border-slate-300"
-              aria-label="Toggle Navigation Menu"
+              aria-label="Chuyển đổi menu điều hướng"
             >
               {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
@@ -129,8 +129,8 @@ export function Navbar() {
                 : 'text-slate-700 hover:bg-slate-50'
             )}
           >
-            <LayoutDashboard className="w-4 h-4 text-slate-500" />
-            <span>Tổng Quan Dashboard</span>
+            <Gauge className="w-4 h-4 text-slate-500" />
+            <span>Tổng Quan</span>
           </Link>
           {navItems.map((item) => {
             const Icon = item.icon;

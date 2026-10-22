@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { 
-  CalendarCheck, 
-  Wrench, 
+  ClipboardCheck, 
+  Boxes, 
   CheckCircle2, 
   Clock, 
   AlertTriangle, 
@@ -146,7 +146,7 @@ export function BookingManager() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200/90 pb-3">
         <div>
           <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <CalendarCheck className="w-5 h-5 text-sky-700" />
+            <ClipboardCheck className="w-5 h-5 text-sky-700" />
             Quản Lý Mượn Trả Thiết Bị & Dụng Cụ Đi Viện
           </h1>
           <p className="text-xs text-slate-600 mt-0.5">
@@ -224,7 +224,7 @@ export function BookingManager() {
               : 'border-transparent text-slate-500 hover:text-slate-800'
           }`}
         >
-          <Wrench className="w-3.5 h-3.5" />
+          <Boxes className="w-3.5 h-3.5" />
           <span>Danh Mục Thiết Bị ({equipmentList.length})</span>
         </button>
 

@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, CalendarCheck, AlertCircle } from 'lucide-react';
+import { X, ClipboardCheck, AlertCircle } from 'lucide-react';
 import { EquipmentItem, CheckoutPayload } from '../types';
 
 interface CheckoutModalProps {
@@ -80,7 +80,7 @@ export function CheckoutModal({
         <div className="flex items-center justify-between p-3.5 sm:p-4 border-b border-slate-100 bg-slate-50/70">
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded bg-sky-100 text-sky-800">
-              <CalendarCheck className="w-4 h-4" />
+              <ClipboardCheck className="w-4 h-4" />
             </div>
             <div>
               <h3 className="font-bold text-slate-900 text-sm">Phiếu Mượn Thiết Bị Đi Viện</h3>

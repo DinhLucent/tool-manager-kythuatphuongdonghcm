@@ -4,10 +4,10 @@ import React, { useState, useMemo } from 'react';
 import { 
   Search, 
   Filter, 
-  Wrench, 
-  ShieldAlert, 
+  Cpu, 
+  HardDrive, 
   CheckCircle2, 
-  Terminal, 
+  FileText, 
   Building, 
   Disc3, 
   X
@@ -103,7 +103,7 @@ export function ToolCatalogue() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-200/90 pb-3">
         <div>
           <h1 className="text-lg sm:text-xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            <Wrench className="w-5 h-5 text-sky-700" />
+            <Cpu className="w-5 h-5 text-sky-700" />
             Phần Mềm, Tiện Ích & Bản Ghost Ngành Hàng
           </h1>
           <p className="text-xs text-slate-600 mt-0.5">
@@ -116,20 +116,20 @@ export function ToolCatalogue() {
         </div>
       </div>
 
-      {/* Offline Readiness & Ghost Notice */}
+      {/* Offline Storage Notice */}
       <div className="bg-sky-50/80 border border-sky-200/80 rounded-lg p-2.5 sm:p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-sky-950">
         <div className="flex items-start gap-2.5">
-          <ShieldAlert className="w-4 h-4 text-sky-700 shrink-0 mt-0.5" />
+          <HardDrive className="w-4 h-4 text-sky-700 shrink-0 mt-0.5" />
           <div className="space-y-0.5">
             <div className="font-semibold flex items-center gap-1.5 flex-wrap">
-              <span>Định Hướng Quản Trị Phần Mềm Hiện Trường:</span>
+              <span>Quản Trị Phần Mềm & File Ghost Hiện Trường:</span>
               <span className="inline-flex items-center gap-1 px-1 py-0.2 rounded bg-sky-100 text-sky-900 font-mono text-[10px]">
                 <Disc3 className="w-3 h-3 text-rose-600" />
                 Bản Ghost theo máy
               </span>
             </div>
             <p className="text-sky-900/90 leading-relaxed text-[11px]">
-              Chương trình được phân loại theo từng ngành hàng. Công cụ chẩn đoán LIS quan trọng (<code className="bg-sky-100/80 px-1 py-0.2 rounded font-mono font-bold text-[10px]">Software.zip 123 MB</code> của anh Sáng) và script test COM/ASTM đã được lưu trữ cục bộ sẵn sàng tải về.
+              Phần mềm được phân loại theo ngành hàng. Các gói tiện ích chẩn đoán LIS (<code className="bg-sky-100/80 px-1 py-0.2 rounded font-mono font-semibold text-[10px]">Software.zip 123 MB</code>) và script kiểm tra cổng COM/ASTM được lưu trữ cục bộ kèm mã kiểm tra toàn vẹn SHA-256.
             </p>
           </div>
         </div>
@@ -138,15 +138,15 @@ export function ToolCatalogue() {
           target="_blank"
           className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-white border border-sky-300 text-sky-800 hover:bg-sky-100 font-semibold transition shrink-0 self-start sm:self-auto text-[11px] shadow-2xs"
         >
-          <Terminal className="w-3.5 h-3.5" />
+          <FileText className="w-3.5 h-3.5" />
           <span>Hướng dẫn kỹ thuật</span>
         </a>
       </div>
 
-      {/* Department Quick Chips */}
+      {/* Department Chips */}
       <div className="space-y-1.5">
         <div className="flex items-center justify-between text-[11px] text-slate-500 font-semibold uppercase tracking-wider font-mono">
-          <span>Chọn Ngành Hàng (Department):</span>
+          <span>Ngành Hàng:</span>
           {selectedDepartment !== 'all' && (
             <button
               type="button"
@@ -285,7 +285,7 @@ export function ToolCatalogue() {
 
         {filteredTools.length === 0 ? (
           <div className="text-center py-10 bg-white rounded-lg border border-slate-200/90 space-y-2 p-4">
-            <Wrench className="w-6 h-6 text-slate-400 mx-auto" />
+            <Cpu className="w-6 h-6 text-slate-400 mx-auto" />
             <h3 className="text-sm font-semibold text-slate-800">Không tìm thấy phần mềm phù hợp</h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto">
               Thử thay đổi từ khóa tìm kiếm hoặc chọn &quot;Tất cả Ngành Hàng&quot;.

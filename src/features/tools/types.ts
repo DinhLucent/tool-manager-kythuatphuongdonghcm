@@ -1,8 +1,12 @@
+import { DepartmentCode } from '@/features/knowledge/types';
+
 export type ToolCategory = 
   | 'lis_bridge' 
   | 'serial_driver' 
   | 'diagnostic' 
-  | 'utility';
+  | 'utility'
+  | 'ghost_image'
+  | 'software_installer';
 
 export type SupportedOS = 
   | 'Windows 10' 
@@ -18,6 +22,8 @@ export interface ToolRelease {
   slug: string;
   description: string;
   category: ToolCategory;
+  department: DepartmentCode; // Phân loại theo Ngành Hàng
+  deviceModel?: string;        // Thiết bị áp dụng
   version: string;
   releaseDate: string;
   supportedOS: SupportedOS[];
@@ -27,10 +33,14 @@ export interface ToolRelease {
   fileSizeBytes?: number;
   isActive: boolean;
   isSampleData: boolean;
+  storageLocation?: 'local' | 'sharepoint' | 'github' | 'pending_upload';
+  sharepointUrl?: string;      // Đường dẫn SharePoint nguồn
+  ghostNote?: string;          // Ghi chú cho bản Ghost (chuẩn boot UEFI/Legacy, dung lượng ổ, phần mềm cài sẵn)
 }
 
 export interface ToolFilterState {
   searchQuery: string;
   selectedCategory: ToolCategory | 'all';
+  selectedDepartment: DepartmentCode | 'all';
   selectedOS: SupportedOS | 'all';
 }
